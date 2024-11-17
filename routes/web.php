@@ -1,6 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Index\IndexController;
+use App\Http\Controllers\Welcome\WelcomeController;
 
-Route::get('/', [IndexController::class, 'index']);
+Route::get('/', [WelcomeController::class, 'index']);
