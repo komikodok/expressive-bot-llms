@@ -19,7 +19,7 @@
             </style>
         @endif
     </head>
-    <body>
+    <body class="bg-gray-300">
         @yield('content')
     </body>
 </html>
