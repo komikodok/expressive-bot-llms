@@ -19,7 +19,7 @@
             <!-- Body -->
             <div class="border border-purple-950 h-5/6 w-full flex p-2.5 justify-center items-center overflow-hidden">
                 <div class="border border-gray-800 rounded-md h-full w-full">
-                    <!-- Ballon's Chat -->
+                    <!-- Ballon's Chat -->   
                     <div id="chatContainer" class="space-y-4 p-4 overflow-y-scroll h-full flex flex-col" style="scrollbar-width:none;">
                         <!-- Contoh balon pesan pengguna -->
                         <div class="self-end border border-blue-500 flex p-3 max-w-[70%] shadow-md">
@@ -34,13 +34,20 @@
                     </div>
                 </div>  
             </div>
-            <!-- Form Chat -->
+            <!-- Chat Form -->
             <div class="border border-sky-950 flex justify-center items-center w-full">
-                <form class="border border-green-600 flex space-x-2 justify-center items-center h-full w-full" action="">
-                    <input class="w-full h-9 text-start rounded-md p-2" type="text" placeholder="Kirim pesan ke">
-                    <button class="text-slate-800 rounded-md">Button</button>
+                <form id="chatForm" class="border border-green-600 flex space-x-2 justify-center items-center h-full w-full" action="{{ route('index.post') }}" method="POST">
+                    @csrf
+                    <input id="messageInput" class="w-full h-9 text-start rounded-md p-2" type="text" name="message" placeholder="Message Assistant">
+                    <button class="text-slate-800 rounded-md" type="submit">Button</button>
                 </form>
             </div>
         </div>
     </div>
+
+    <script>
+        const postUrl = @json(route('index.post'));
+    </script>
+    
+    <script src={{ asset('js/chatbot.js') }}></script>
 @endsection

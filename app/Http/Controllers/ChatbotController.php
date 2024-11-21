@@ -18,7 +18,14 @@ class ChatbotController extends Controller
 
     public function store(Request $request)
     {
-        
+        $message = $request->input('message', '');
+        $botResponse = 'Dummies response';
+
+        return response()->json(
+            [
+                'botResponse' => $botResponse
+            ]
+        );
     }
 
     public function show(string $id)
