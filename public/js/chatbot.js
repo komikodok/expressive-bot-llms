@@ -30,7 +30,7 @@ document.querySelector('#chatForm').addEventListener('submit', async function (e
         messageElement.className = `border ${senderClass} flex p-3 max-w-[70%] shadow-md`
 
         messageElement.innerHTML += `
-                <div>User :</div>
+                <div>${sender} :</div>
                 <div>${message}</div>
             `
         chatContainer.appendChild(messageElement)
