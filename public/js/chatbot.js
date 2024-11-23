@@ -1,7 +1,8 @@
 document.querySelector('#chatForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const chatContainer = document.getElementById('chatContainer')
+    const chatContainer = document.getElementById('chatContainer');
+    const sendButton = document.getElementById('sendButton');
     const messageInput = document.getElementById('messageInput');
     const message = messageInput.value.trim();
 
@@ -25,14 +26,21 @@ document.querySelector('#chatForm').addEventListener('submit', async function (e
     
     function appendMessage(sender, message) {
         const messageElement = document.createElement('div');
-        const senderClass = sender === 'user' ? 'self-end border-blue-500' : 'self-start border-gray-500'
+        const senderClass = sender === 'user' ? 'self-end justify-end' : 'self-start justify-start'
 
-        messageElement.className = `border ${senderClass} flex p-3 max-w-[70%] shadow-md`
+        messageElement.className = `${senderClass} p-3 flex`
 
-        messageElement.innerHTML += `
-                <div>${sender} :</div>
-                <div>${message}</div>
-            `
+        if (sender === 'user') {
+            messageElement.innerHTML += `
+                    <div class="bg-gray-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">${message}</div>
+                    <div class="border border-black w-14 h-14 rounded-full"></div>
+                `
+        } else {
+            messageElement.innerHTML += `
+                    <div class="border border-black w-14 h-14 rounded-full"></div>
+                    <div class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">${message}</div>
+                `
+        }
         chatContainer.appendChild(messageElement)
         chatContainer.scrollTop = chatContainer.scrollHeight
     }
