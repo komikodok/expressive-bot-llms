@@ -6,15 +6,22 @@
     <!-- Container -->
     <div class="flex h-screen overflow-hidden">
         <!-- Side Bar -->
-        <div class="border border-green-400 bg-slate-400 w-96 h-full max-md:!w-0 transition-all duration-500 overflow-hidden">
-            <div class="border border-yellow-400 w-full h-full"></div>
+        <div class="w-96 h-full max-md:!w-0 rounded-md transition-all duration-500 overflow-hidden">
+            <div class="bg-slate-100 w-full h-14 flex justify-end p-3 mb-1 shadow-md shadow-gray-300">
+                <button id="sideBarButton" class="">⚫</button>
+            </div>
+            <div class="border-x border-gray-300 bg-slate-100 rounded-lg w-full h-full">
+            </div>
         </div>
         <!-- Chatbot -->
         <div class="w-full h-full">
             <!-- Header -->
-            <header class="bg-red-900 flex w-full h-12 items-center justify-center rounded-lg shadow-md shadow-gray-400">
-                <p class="text-slate-200 text-lg font-extrabold">Assistant</p>
-                <button class="ml-2 rounded-full">⚙</button>
+            <header class="bg-red-900 flex w-full h-14 rounded-lg shadow-md shadow-gray-400">
+                <div class="border border-black rounded-full w-10 h-10 ml-5 my-auto">
+                    <img src="" class="text-xs" alt="Bot Profile">
+                </div>
+                <p class="text-slate-200 text-lg ml-2 my-auto font-extrabold">Assistant</p>
+                <button class="ml-auto mr-5">⚫</button>
             </header>
             <!-- Body -->
             <div class="h-5/6 w-full flex p-2.5 justify-center items-center overflow-hidden">
@@ -22,13 +29,17 @@
                     <!-- Ballon's Chat -->   
                     <div id="chatContainer" class="space-y-1 p-4 h-full overflow-y-scroll flex flex-col" style="scrollbar-width:thin;">
                         <!-- User Message -->
-                        <div class="self-end justify-end p-3 flex">
+                        <div class="justify-end p-3 flex">
                             <div class="bg-gray-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi corrupti voluptates odit quod beatae at natus, sapiente odio molestiae totam doloribus blanditiis ipsum alias, fugit molestias officia. Sit, ipsam placeat. Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum eos esse quas doloribus laboriosam aliquid, dicta quo beatae saepe repudiandae repellat at non nam quidem debitis voluptates hic magni fugit.</div>
-                            <div class="border border-black w-14 h-14 rounded-full"></div>
+                            <div class="border border-black w-14 h-14 rounded-full">
+                                <img src="" class="text-md m-auto" alt="User Profile">
+                            </div>
                         </div>
                         <!-- Assistant Message -->
-                        <div class="self-start justify-start p-3 flex">
-                            <div class="border border-black w-14 h-14 rounded-full"></div>
+                        <div class="justify-start p-3 flex">
+                            <div class="border border-black w-14 h-14 flex rounded-full">
+                                <img src="" class="text-md m-auto" alt="Bot Profile">
+                            </div>
                             <div class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi corrupti voluptates odit quod beatae at natus, sapiente odio molestiae totam doloribus blanditiis ipsum alias, fugit molestias officia. Sit, ipsam placeat. Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum eos esse quas doloribus laboriosam aliquid, dicta quo beatae saepe repudiandae repellat at non nam quidem debitis voluptates hic magni fugit.</div>
                         </div>
                     </div>
@@ -38,7 +49,9 @@
             <form id="chatForm" class="flex space-x-2 justify-center items-center h-12 w-full overflow-hidden" action="{{ route('index.post') }}" method="POST">
                 @csrf
                 <input id="messageInput" class="w-full h-full text-start rounded-xl p-2 border-2 border-red-200 focus:outline-red-500" type="text" name="message" placeholder="Message Assistant...">
-                <button id="sendButton" class="text-slate-200 font-semibold rounded-lg bg-red-800 w-16 h-full focus:outline-none" type="submit">Send</button>
+                <button id="sendButton" class="disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center text-slate-200 font-semibold rounded-lg bg-red-800 w-16 h-full focus:outline-1 focus:outline-red-900 transition-all duration-300" type="submit" disabled>
+                    <span id="sendIcon" class="text-2xl m-auto">↑</span>
+                </button>
             </form>
         </div>
     </div>
