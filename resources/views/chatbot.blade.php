@@ -6,12 +6,9 @@
     <!-- Container -->
     <div class="flex h-screen overflow-hidden">
         <!-- Side Bar -->
-        <div class="w-96 h-full max-md:!w-0 rounded-md transition-all duration-500 overflow-hidden">
-            <div class="bg-slate-100 w-full h-14 flex justify-end p-3 mb-1 shadow-md shadow-gray-300">
-                <button id="sideBarButton" class="">⚫</button>
-            </div>
-            <div class="border-x border-gray-300 bg-slate-100 rounded-lg w-full h-full">
-            </div>
+        <div id="sideBar" class="w-96 h-full md:static max-md:absolute max-md:w-64 max-md:-translate-x-full rounded-md max-md:transition-all max-md:duration-500 overflow-hidden">
+            <div class="bg-slate-100 w-full h-14 flex justify-end p-3 mb-1 shadow-md shadow-gray-300"></div>
+            <div class="border-x border-gray-300 bg-slate-100 rounded-lg w-full h-full"></div>
         </div>
         <!-- Chatbot -->
         <div class="w-full h-full">
@@ -21,7 +18,7 @@
                     <img src="" class="text-xs" alt="Bot Profile">
                 </div>
                 <p class="text-slate-200 text-lg ml-2 my-auto font-extrabold">Assistant</p>
-                <button class="ml-auto mr-5">⚫</button>
+                <button id="sideBarButton" class="ml-auto mr-5">⚫</button>
             </header>
             <!-- Body -->
             <div class="h-5/6 w-full flex p-2.5 justify-center items-center overflow-hidden">
@@ -60,5 +57,6 @@
         const postUrl = @json(route('index.post'));
     </script>
     
+    <script src={{ asset('js/sidebar.js') }}></script>
     <script src={{ asset('js/chatbot.js') }}></script>
 @endsection
