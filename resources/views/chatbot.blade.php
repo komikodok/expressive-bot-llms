@@ -6,19 +6,25 @@
     <!-- Container -->
     <div class="flex h-screen overflow-hidden">
         <!-- Side Bar -->
-        <div id="sideBar" class="w-96 h-full md:static max-md:absolute max-md:w-64 max-md:-translate-x-full rounded-md max-md:transition-all max-md:duration-500 overflow-hidden">
-            <div class="bg-slate-100 w-full h-14 flex justify-end p-3 mb-1 shadow-md shadow-gray-300"></div>
+        <div id="sideBar" class="w-96 h-full md:static max-md:absolute max-md:w-64 max-md:-translate-x-full rounded-md overflow-hidden">
+            <!-- Header -->
+            <header class="bg-slate-100 w-full h-14 flex justify-end rounded-lg p-3 mb-1 shadow-md shadow-gray-300"></header>
+            <!-- Body -->
             <div class="border-x border-gray-300 bg-slate-100 rounded-lg w-full h-full"></div>
         </div>
         <!-- Chatbot -->
-        <div class="w-full h-full">
+        <div class="w-full h-full md:px-5 max-md:px-2">
             <!-- Header -->
             <header class="bg-red-900 flex w-full h-14 rounded-lg shadow-md shadow-gray-400">
                 <div class="border border-black rounded-full w-10 h-10 ml-5 my-auto">
                     <img src="" class="text-xs" alt="Bot Profile">
                 </div>
                 <p class="text-slate-200 text-lg ml-2 my-auto font-extrabold">Assistant</p>
-                <button id="sideBarButton" class="ml-auto mr-5">⚫</button>
+                <button id="sideBarButton" class="rounded-full h-14 w-14 ml-auto mr-5 md:hidden">
+                    <svg class="w-6 h-6 text-white m-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
             </header>
             <!-- Body -->
             <div class="h-5/6 w-full flex p-2.5 justify-center items-center overflow-hidden">
