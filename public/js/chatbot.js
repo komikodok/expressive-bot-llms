@@ -51,9 +51,9 @@ document.querySelector('#chatForm').addEventListener('submit', async function (e
                     `
         } else {
             messageElement.innerHTML += `
-            <div class="border border-black w-14 h-14 rounded-full"></div>
-            <div class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">${message}</div>
-            `
+                    <div class="border border-black w-14 h-14 rounded-full"></div>
+                    <div class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">${message}</div>
+                    `
         }
         chatContainer.appendChild(messageElement)
         chatContainer.scrollTop = chatContainer.scrollHeight
