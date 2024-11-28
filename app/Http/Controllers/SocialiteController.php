@@ -21,6 +21,10 @@ class SocialiteController extends Controller
             return redirect()->route('index')->with('error', 'Autenticated failed');
         }
 
+        if (!$userFromGoogle || !$userFromGoogle->getEmail()) {
+            return redirect()->route('index')->with('error', 'Invalid user');
+        }
+
         $userFromDb = User::updateOrCreate(
             ['google_id' => $userFromGoogle->getId()],
             [

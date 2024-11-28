@@ -4,16 +4,27 @@
 
 @section('content')
     <!-- Container -->
-    <div class="flex h-screen overflow-hidden">
+    <div class="flex h-screen overflow-hidden fade-in-animation">
         <!-- Side Bar -->
-        <div id="sideBar" class="w-96 h-full max-md:absolute max-md:w-64 max-md:-translate-x-full rounded-md overflow-hidden">
+        <div id="sideBar" class="w-96 h-full max-md:absolute max-md:w-64 max-md:-translate-x-full max-md:transition-all max-md:duration-300 rounded-md overflow-hidden">
             <!-- Header -->
-            <header class="bg-slate-100 w-full h-14 flex justify-end rounded-lg p-3 mb-1 shadow-md shadow-gray-300"></header>
+            <header class="bg-slate-100 w-full h-14 flex justify-end items-center rounded-lg p-3 mb-1 shadow-md shadow-gray-300">
+                @auth
+                <a href="{{ route('google.logout') }}" class="w-20 text-center border-2 border-slate-100 ring-2 ring-red-800 bg-red-800 rounded-lg">
+                    <span class="text-sm text-slate-200 font-semibold my-auto">Logout</span>
+                </a>
+                @endauth
+                @guest
+                <a href="{{ route('google.redirect') }}" class="w-20 text-center border-2 border-slate-100 ring-2 ring-red-800 bg-red-800 rounded-lg">
+                    <span class="text-sm text-slate-200 font-semibold my-auto">Login</span>
+                </a>
+                @endguest
+            </header>
             <!-- Body -->
             <div class="border-x border-gray-300 bg-slate-100 rounded-lg w-full h-full"></div>
         </div>
         <!-- Chatbot -->
-        <div class="w-full h-full md:px-3 lg:px-5 max-md:px-2">
+        <div id="chatBot" class="w-full h-full md:px-3 lg:px-5 max-md:px-2">
             <!-- Header -->
             <header class="bg-red-900 flex w-full h-14 rounded-lg shadow-md shadow-gray-400">
                 <!-- Profile Assistant -->
@@ -40,7 +51,17 @@
                             <div class="border border-black w-14 h-14 flex rounded-full">
                                 <img src="" class="text-md m-auto" alt="Bot Profile">
                             </div>
-                            <div class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi corrupti voluptates odit quod beatae at natus, sapiente odio molestiae totam doloribus blanditiis ipsum alias, fugit molestias officia. Sit, ipsam placeat. Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum eos esse quas doloribus laboriosam aliquid, dicta quo beatae saepe repudiandae repellat at non nam quidem debitis voluptates hic magni fugit.</div>
+                            
+                            @auth
+                            <p class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">Halo {{ auth()->user()->name }}</p>
+                            @endauth
+
+                            @guest
+                            <p class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">Perkenalkan siapa dirimu, 
+                                <a href="{{ route('google.redirect') }}" class="text-blue-400 underline">login sekarang</a>
+                            </p>
+                            @endguest
+
                         </div>
                     </div>
                 </div>
