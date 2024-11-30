@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ChatbotController extends Controller
 {
@@ -19,14 +20,32 @@ class ChatbotController extends Controller
     public function store(Request $request)
     {
         $message = $request->input('message', '');
-        $botResponse = 'Dummies response';
 
-        return response()->json(
-            [
-                'botResponse' => $botResponse
-            ]
-        );
+        $acces_token = $request->session()->get('acces_token');
+        $refresh_token = $request->session()->get('refresh_token');
+
+        $response = Http::withToken($acces_token)->post('http://fastapi:8001/chat', [
+            'message' => $message
+        ]);
+
+        if ($response->status() == 401) {
+            $refresh_response = Http::post('http://laravel:8000/chat', [
+                'refresh_token' => $refresh_token
+            ]);
+
+            if ($refresh_response->status() == 200) {
+                $new_acces_token = $refresh_response->json('acces_token');
+            }
+        }
     }
+    //     $botResponse = 'Dummies response';
+
+    //     return response()->json(
+    //         [
+    //             'botResponse' => $botResponse
+    //         ]
+    //     );
+    // }
 
     public function show(string $id)
     {
