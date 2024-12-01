@@ -21,31 +21,34 @@ class ChatbotController extends Controller
     {
         $message = $request->input('message', '');
 
-        $acces_token = $request->session()->get('acces_token');
-        $refresh_token = $request->session()->get('refresh_token');
+        $accesToken = $request->session()->get('accesToken');
+        $refreshToken = $request->session()->get('refreshToken');
 
-        $response = Http::withToken($acces_token)->post('http://fastapi:8001/chat', [
+        $response = Http::withToken($accesToken)->post('http://fastapi:8001/chat', [
             'message' => $message
         ]);
 
         if ($response->status() == 401) {
-            $refresh_response = Http::post('http://laravel:8000/chat', [
-                'refresh_token' => $refresh_token
+            $refresh_response = Http::post('http://laravel:8000/refresh-token', [
+                'refreshToken' => $refreshToken
             ]);
 
             if ($refresh_response->status() == 200) {
-                $new_acces_token = $refresh_response->json('acces_token');
+                $newAccesToken = $refresh_response->json('accesToken');
+                $request->session()->put('accesToken', $newAccesToken);
+
+                $response = Http::withToken($newAccesToken)->post('http://fastapi:8001/chat', [
+                    'message' => $message
+                ]);
+            } else {
+                return redirect()->route('google.logout')->with('error', 'Session expired, please log in again.');
             }
         }
-    }
-    //     $botResponse = 'Dummies response';
 
-    //     return response()->json(
-    //         [
-    //             'botResponse' => $botResponse
-    //         ]
-    //     );
-    // }
+        return response()->json([
+            'botResponse' => $response->json('botResponse')
+        ]);
+    }
 
     public function show(string $id)
     {

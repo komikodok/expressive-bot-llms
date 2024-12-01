@@ -39,7 +39,7 @@ class SocialiteController extends Controller
         session()->regenerate();
 
         $accesToken = $this->generateToken($userFromDb, 30); // 30 minutes expired
-        $refreshToken = $this->generateToken($userFromDb, 60 * 12); // 12 hours expired
+        $refreshToken = $this->generateToken($userFromDb, 60 * 5); // 5 hours expired
 
         return redirect()->route('index')->with([
             'acces_token' => $accesToken,
