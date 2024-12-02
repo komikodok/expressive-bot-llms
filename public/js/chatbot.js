@@ -33,8 +33,8 @@ document.querySelector('#chatForm').addEventListener('submit', async function (e
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
             }
         });
-        // bot_response = response.data.botResponse
-        // bot_mood = response.data.botMood
+        // bot_response = response.data.response
+        // bot_mood = response.data.mood
         appendMessage('assistant', response.data.botResponse);
     } catch (error) {
         appendMessage('assistant', 'Something went wrong, Please try again');

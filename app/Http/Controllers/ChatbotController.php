@@ -46,7 +46,8 @@ class ChatbotController extends Controller
         }
 
         return response()->json([
-            'botResponse' => $response->json('botResponse')
+            'response' => $response->json('response'),
+            'mood' => $response->json('mood')
         ]);
     }
 
