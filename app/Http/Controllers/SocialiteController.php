@@ -64,7 +64,7 @@ class SocialiteController extends Controller
             'iat' => time(),
             'exp' => time() + ($minutes * 60)
         ];
-        return JWT::encode($payload, env('JWT_SECRET'), 'HS256');
+        return JWT::encode($payload, env('SECRET_KEY'), 'HS256');
     }
 
     public function refresh_token(Request $request)
@@ -72,7 +72,7 @@ class SocialiteController extends Controller
         $refresh_token = $request->input('refresh_token');
     
         try {
-            $decoded = JWT::decode($refresh_token, new Key(env('JWT_SECRET'), 'HS256'));
+            $decoded = JWT::decode($refresh_token, new Key(env('SECRET_KEY'), 'HS256'));
             $user = User::find($decoded->sub);
     
             if (!$user) {
