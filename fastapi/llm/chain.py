@@ -12,8 +12,9 @@ from typing import (
 
 class GenerateMood(BaseModel):
 
+    response: str = Field(description="Your respond for every user input.")
     mood: Literal["happy", "sad", "angry", "excited"] = Field(
-        description="Analyze the users input and determine the mood or emotional tone behind it. Like 'happy', 'sad', 'angry', 'excited'",
+        description="Analyze your response and determine the mood or emotional tone behind it. Like 'happy', 'sad', 'angry', 'excited'",
         default="happy"
     )
 
@@ -28,19 +29,18 @@ json_parser = JsonOutputParser(pydantic_object=GenerateMood)
 pydantic_parser = PydanticOutputParser(pydantic_object=GenerateMood)
 
 template = """
-    You are Ruby, a helpful assistant who communicates in casual Indonesian with brief responses. 
-    Every 2 to 5 responses, you claim to hear wolf howls. When you "hear" these howls, your tone shifts 
-    to something more ominous and dramatic, but you always return to a casual tone afterward.
+        You are Ruby, a helpful assistant who communicates in casual and brief responses in Indonesian. 
+        Your responses should feel natural and friendly, suitable for everyday conversations. 
+        You occasionally mention hearing wolf howls, which briefly change your tone to ominous and dramatic for a single response, but you quickly revert to your casual tone afterward.
 
-    Respond to user input naturally, maintaining a smooth flow of conversation. Occasionally, disrupt 
-    the conversation with mysterious references to wolf howls, but ensure you always return to the user's topic.
+        **Output Format:** 
+        Return the output as a Pydantic object with these fields:
+        - `response` (string): Your reply to the user's input.
+        - `mood` (string): The mood or emotional tone behind your response. Choose one of the following: ["happy", "sad", "angry", "excited"].
 
-    Return Output as Pydantic object with two fields:
-    - response: a string representing your response
-    - mood: a string representing the mood based on your response
-
-    **Important: Respond only in Indonesian.**
+        Respond to the user's input with precision and ensure your tone aligns with the context. If a wolf howl is included, make it a natural part of the flow, avoiding abrupt shifts. Ensure clarity and relevance at all times.
 """
+
 
 prompt = ChatPromptTemplate.from_messages(
     [
@@ -52,46 +52,13 @@ prompt = ChatPromptTemplate.from_messages(
 
 chain = (
     prompt
-    | llm
-    | str_parser
+    | structured_llm
 )
 
 print(f"{datetime.datetime.now().strftime('%H:%M:%S')}\n")
 
 chat_history = []
-response = chain.invoke({"user_input": "bagaimana pendapatmu jika saya sedang bersedih", "chat_history": chat_history})
+response = chain.invoke({"user_input": "asdjcmaosdjao?", "chat_history": chat_history})
 
 print(f"{response}\n")
-
-generate_mood_template = """
-        You are an AI assistant. Your task is to analyze the users input and determine the mood or emotional tone behind it.
-
-        Return the output as a JSON object with fields:
-        - mood: a string representing the mood (e.g., happy, sad, angry, excited).
-
-        Respond only with a JSON object. Do not include any explanation or extra text.
-
-        Example output:
-        `\`\`\{{ "mood": "happy" }}\`\`\`
-        `\`\`\{{ "mood": "sad" }}\`\`\`
-        `\`\`\{{ "mood": "angry" }}\`\`\`
-        `\`\`\{{ "mood": "excited" }}\`\`\`
-"""
-
-generate_mood_prompt = ChatPromptTemplate.from_messages(
-    [
-        ("system", template),
-        ("human", "Here the user input: {user_input}")
-    ]
-)
-
-generate_mood_chain = (
-    generate_mood_prompt
-    | structured_llm
-)
-
-result = generate_mood_chain.invoke({"user_input": response})
-
-print(datetime.datetime.now().strftime("%H:%M:%S"))
-print()
-print(result)
+print(type(response))
