@@ -1,3 +1,4 @@
+from llm.chain import chain
 from typing import (
     Literal,
     TypedDict
@@ -7,11 +8,10 @@ from typing import (
 class State(TypedDict):
     question: str
     generation: str
-
     chat_history: list
 
 
-def conversation_node(state: State):
+def node(state: State):
     question = state["question"]
     chat_history = state["chat_history"]
 
@@ -21,8 +21,7 @@ def conversation_node(state: State):
             {"role": "assistant", "content": "Halo juga"}
         ]
 
-    conversation_chain = ConversationChain()
-    generation = conversation_chain.invoke({"question": question, "chat_history": chat_history})
+    generation = chain.invoke({"question": question, "chat_history": chat_history})
 
     return {
         "question": question,

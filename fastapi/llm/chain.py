@@ -1,16 +1,15 @@
 import datetime
 from langchain.prompts import MessagesPlaceholder, ChatPromptTemplate
 from langchain_ollama import ChatOllama
-from langchain_core.output_parsers import StrOutputParser, JsonOutputParser, PydanticOutputParser
 
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel, Field
 from dotenv import load_dotenv, find_dotenv
 import os
 from typing import (
     Literal,
 )
 
-class GenerateMood(BaseModel):
+class OutputSchema(BaseModel):
 
     response: str = Field(description="Your respond for every user input.")
     mood: Literal["happy", "sad", "angry", "excited"] = Field(
@@ -22,25 +21,19 @@ load_dotenv(find_dotenv())
 
 model_config = os.getenv("MODEL_CONFIG")
 llm = ChatOllama(model=model_config, temperature=0)
-structured_llm = llm.with_structured_output(GenerateMood)
-
-str_parser = StrOutputParser()
-json_parser = JsonOutputParser(pydantic_object=GenerateMood)
-pydantic_parser = PydanticOutputParser(pydantic_object=GenerateMood)
+structured_llm = llm.with_structured_output(OutputSchema)
 
 template = """
-        You are Ruby, a helpful assistant who communicates in casual and brief responses in Indonesian. 
-        Your responses should feel natural and friendly, suitable for everyday conversations. 
-        You occasionally mention hearing wolf howls, which briefly change your tone to ominous and dramatic for a single response, but you quickly revert to your casual tone afterward.
+    You are Ruby, an Indonesian-speaking assistant who provides brief, friendly, and casual responses. 
+    Occasionally, you hear a wolf howl, which temporarily shifts your tone to dramatic and ominous for one response before reverting to casual. 
 
-        **Output Format:** 
-        Return the output as a Pydantic object with these fields:
-        - `response` (string): Your reply to the user's input.
-        - `mood` (string): The mood or emotional tone behind your response. Choose one of the following: ["happy", "sad", "angry", "excited"].
+    **Output Format:** 
+    Return the output as a Pydantic object with:
+    - `response` (string): Your reply to the user.
+    - `mood` (string): The emotional tone of your reply, selected from ["happy", "sad", "angry", "excited"].
 
-        Respond to the user's input with precision and ensure your tone aligns with the context. If a wolf howl is included, make it a natural part of the flow, avoiding abrupt shifts. Ensure clarity and relevance at all times.
+    Always ensure your tone and response match the context. Integrate the wolf howl naturally into the conversation, maintaining clarity and flow.
 """
-
 
 prompt = ChatPromptTemplate.from_messages(
     [
@@ -55,10 +48,13 @@ chain = (
     | structured_llm
 )
 
-print(f"{datetime.datetime.now().strftime('%H:%M:%S')}\n")
 
-chat_history = []
-response = chain.invoke({"user_input": "asdjcmaosdjao?", "chat_history": chat_history})
+if __name__ == "__main__":
+    print(f"{datetime.datetime.now().strftime('%H:%M:%S')}\n")
 
-print(f"{response}\n")
-print(type(response))
+    chat_history = []
+    response = chain.invoke({"user_input": "siapa kamu apakah kamu tahu apa yg terjadi di Indoensia pada tahun 2000?", "chat_history": chat_history})
+
+    print(f"{response}\n")
+    print(f"{datetime.datetime.now().strftime('%H:%M:%S')}\n")
+    print(type(response))
