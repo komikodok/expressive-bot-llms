@@ -6,12 +6,16 @@ from typing import (
 
 
 class State(TypedDict):
+    username: str
     question: str
     generation: str
+    mood: Literal["happy", "sad", "angry", "excited"]
     chat_history: list
 
 
-def node(state: State):
+def generation_node(state: State):
+    username = state["username"]
+    mood = state["mood"]
     question = state["question"]
     chat_history = state["chat_history"]
 
@@ -21,24 +25,28 @@ def node(state: State):
             {"role": "assistant", "content": "Halo juga"}
         ]
 
-    generation = chain.invoke({"question": question, "chat_history": chat_history})
+    result = chain.invoke({"question": question, "chat_history": chat_history, "username": username})
+    generation = result.response
+    mood = result.mood
 
     return {
+        "username": username,
         "question": question,
         "generation": generation,
+        "mood": mood,
         "chat_history": chat_history
     }
 
 def insert_chat_history(state: State):
     question = state["question"]
     generation = state["generation"]
+    mood = state["mood"]
     chat_history = state["chat_history"]
 
     chat_history.append({"role": "user", "content": question})
     chat_history.append({"role": "assistant", "content": generation})
 
     return {
-        "question": question,
         "generation": generation,
-        "chat_history": chat_history
+        "mood": mood
     }
