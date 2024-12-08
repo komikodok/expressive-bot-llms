@@ -1,0 +1,57 @@
+version: '3.9'
+services:
+  fastapi:
+    build:
+      context: ./fastapi
+      dockerfile: dockerfile
+    container_name: fastapi
+    ports:
+      - '8001:8000'
+    volumes:
+      - ./fastapi:/usr/src/app
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - MODEL_CONFIG=${MODEL_CONFIG}
+    depends_on:
+      - laravel
+    networks:
+      - app_network
+  
+  laravel:
+    build: 
+      context: .
+      dockerfile: dockerfile
+    container_name: laravel
+    ports:
+      - '8000:9000'
+    volumes:
+      - .:/var/www
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - app_network
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD=${DB_PASWORD}
+      MYSQL_DATABASE=${DB_DATABASE}
+      MYSQL_USER=${DB_USERNAME}
+      MYSQL_PASSWORD=${MYSQL_PASWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app_network
+
+volumes:
+  db_data:
+
+networks:
+  app_network:
+    driver: bridge
