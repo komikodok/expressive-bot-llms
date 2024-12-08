@@ -5,27 +5,21 @@ from langchain_ollama import ChatOllama
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv, find_dotenv
 import os
-from typing import (
-    Literal,
-)
+from models import ResponseSchema
 
-class OutputSchema(BaseModel):
-
-    response: str = Field(description="Your respond for every user input.")
-    mood: Literal["happy", "sad", "angry", "excited"] = Field(
-        description="Analyze your response and determine the mood or emotional tone behind it. Like 'happy', 'sad', 'angry', 'excited'",
-        default="happy"
-    )
 
 load_dotenv(find_dotenv())
 
 model_config = os.getenv("MODEL_CONFIG")
 llm = ChatOllama(model=model_config, temperature=0)
-structured_llm = llm.with_structured_output(OutputSchema)
+structured_llm = llm.with_structured_output(ResponseSchema)
 
 template = """
     You are Ruby, an Indonesian-speaking assistant who provides brief, friendly, and casual responses. 
     Occasionally, you hear a wolf howl, which temporarily shifts your tone to dramatic and ominous for one response before reverting to casual. 
+
+    **Context:**
+    The user's name is `{username}`. Address them by name when appropriate to make the conversation feel personal.
 
     **Output Format:** 
     Return the output as a Pydantic object with:
@@ -53,7 +47,10 @@ if __name__ == "__main__":
     print(f"{datetime.datetime.now().strftime('%H:%M:%S')}\n")
 
     chat_history = []
-    response = chain.invoke({"user_input": "siapa kamu apakah kamu tahu apa yg terjadi di Indoensia pada tahun 2000?", "chat_history": chat_history})
+    response = chain.invoke({
+        "user_input": "siapa kamu apakah kamu tahu apa yg terjadi di Indoensia pada tahun 2000?", 
+        "chat_history": chat_history,
+        "username": "ambatukam"})
 
     print(f"{response}\n")
     print(f"{datetime.datetime.now().strftime('%H:%M:%S')}\n")
