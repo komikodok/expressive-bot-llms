@@ -2,6 +2,10 @@ from pydantic import BaseModel, Field
 from typing import Literal
 
 
+class RequestSchema(BaseModel):
+
+    message: str
+
 class ResponseSchema(BaseModel):
 
     response: str = Field(description="Your respond for every user input.")

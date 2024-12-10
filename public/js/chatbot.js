@@ -27,17 +27,17 @@ document.querySelector('#chatForm').addEventListener('submit', async function (e
     sendIcon.textContent = '↻';
     
     try {
-        const response = await axios.post(postUrl ,{ message }, {
+        const response = await axios.post(postUrl ,{'message': message}, {
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
             }
         });
-        // bot_response = response.data.response
-        // bot_mood = response.data.mood
-        appendMessage('assistant', response.data.botResponse);
+        console.log(response.data)
+        appendMessage('assistant', response.data.response);
+        appendMessage('assistant', response.data.mood);
     } catch (error) {
-        appendMessage('assistant', 'Something went wrong, Please try again');
+        appendMessage('assistant', `Something went wrong, Please try again. Error: ${error.message}`);
     }
     
     function appendMessage(sender, message) {

@@ -11,12 +11,12 @@ class LLMApp:
     def invoke(self, input: dict, **kwargs):
         user_input = input or kwargs
         self.__result = self.__llm_app.invoke(user_input)
-        return self
+        return self.__result
 
     async def ainvoke(self, input: dict, **kwargs):
         user_input = input or kwargs
         self.__result = await self.__llm_app.ainvoke(user_input)
-        return self
+        return self.__result
     
     @property
     def result(self):

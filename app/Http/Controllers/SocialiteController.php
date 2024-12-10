@@ -38,11 +38,11 @@ class SocialiteController extends Controller
         auth('web')->login($user_from_db);
         session()->regenerate();
 
-        $acces_token = $this->generate_token($user_from_db, 30); // 30 minutes expired
+        $access_token = $this->generate_token($user_from_db, 30); // 30 minutes expired
         $refresh_token = $this->generate_token($user_from_db, 60 * 5); // 5 hours expired
 
         return redirect()->route('index')->with([
-            'acces_token' => $acces_token,
+            'access_token' => $access_token,
             'refresh_token' => $refresh_token
         ]);
     }
@@ -59,8 +59,9 @@ class SocialiteController extends Controller
     public function generate_token($user, $minutes)
     {
         $payload = [
-            'iss' => 'http://laravel:8000',
-            'sub' => $user->name,
+            'iss' => 'http://localhost:8000',
+            'sub' => $user->id,
+            'username' => $user->name,
             'iat' => time(),
             'exp' => time() + ($minutes * 60)
         ];
@@ -79,8 +80,8 @@ class SocialiteController extends Controller
                 return response()->json(['error' => 'Invalid token'], 401);
             }
     
-            $new_acces_token = $this->generate_token($user, 30); // 30 minutes expired
-            return response()->json(['access_token' => $new_acces_token]);
+            $new_access_token = $this->generate_token($user, 30); // 30 minutes expired
+            return response()->json(['access_token' => $new_access_token]);
     
         } catch (\Exception $e) {
             return response()->json(['error' => 'Invalid or expired refresh token'], 401);

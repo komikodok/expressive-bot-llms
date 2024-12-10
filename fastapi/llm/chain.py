@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
     chat_history = []
     response = chain.invoke({
-        "user_input": "siapa kamu apakah kamu tahu apa yg terjadi di Indoensia pada tahun 2000?", 
+        "user_input": "Halooo", 
         "chat_history": chat_history,
         "username": "ambatukam"})
 

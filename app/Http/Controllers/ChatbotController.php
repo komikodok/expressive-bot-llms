@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -21,23 +22,23 @@ class ChatbotController extends Controller
     {
         $message = $request->input('message', '');
 
-        $acces_token = $request->session()->get('acces_token');
+        $access_token = $request->session()->get('access_token');
         $refresh_token = $request->session()->get('refresh_token');
 
-        $response = Http::withToken($acces_token)->post('http://fastapi:8001/chat', [
+        $response = Http::withToken($access_token)->post('http://localhost:8001/chat', [
             'message' => $message
         ]);
 
         if ($response->status() == 401) {
-            $refresh_response = Http::post('http://laravel:8000/refresh-token', [
+            $refresh_response = Http::post('http://localhost:8000/refresh-token', [
                 'refresh_token' => $refresh_token
             ]);
 
             if ($refresh_response->status() == 200) {
-                $new_acces_token = $refresh_response->json('acces_token');
-                $request->session()->put('acces_token', $new_acces_token);
+                $new_access_token = $refresh_response->json('access_token');
+                $request->session()->put('access_token', $new_access_token);
 
-                $response = Http::withToken($new_acces_token)->post('http://fastapi:8001/chat', [
+                $response = Http::withToken($new_access_token)->post('http://localhost:8001/chat', [
                     'message' => $message
                 ]);
             } else {

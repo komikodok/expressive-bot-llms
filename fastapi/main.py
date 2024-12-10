@@ -5,14 +5,14 @@ import jwt
 from llm.llm_app import LLMApp
 from dotenv import load_dotenv, find_dotenv
 import os
-from models import ResponseSchema
+from models import RequestSchema, ResponseSchema
 
 load_dotenv(find_dotenv())
 
 app = FastAPI()
 security = HTTPBearer()
 
-SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 llm_app = LLMApp()
 
@@ -27,7 +27,7 @@ def verify_token(token: str) -> dict:
         HTTPException: http_error_403 if invalid token
 
     Returns:
-        dict: decode payload, field: ["iss", "sub", "iat", "exp"]
+        dict: decode payload, field: ["iss", "sub", "username", "iat", "exp"]
     """
     try:
         decode_payload = jwt.decode(token, SECRET_KEY, "HS256")
@@ -40,17 +40,21 @@ def verify_token(token: str) -> dict:
 
 @app.post('/chat')
 async def response_items(
-    message:str, 
+    message: RequestSchema, 
     credentials: HTTPAuthorizationCredentials = Depends(security)
     ) -> ResponseSchema:
 
     token = credentials.credentials
     decode_payload = verify_token(token)
-    username = decode_payload['sub']
+    username = decode_payload['username']
+    chat_history = []
 
-    result = await llm_app.ainvoke({"question": message, "username": username}).result
-    
-    bot_response = result.generation
-    mood = result.mood
+    print(token)
+    print(message.message)
 
-    return ResponseSchema(response=bot_response, mood=mood).dict()
+    result = await llm_app.ainvoke({"question": message.message, "username": username, "chat_history": chat_history})
+
+    bot_response = result['generation']
+    mood = result['mood']
+
+    return ResponseSchema(response=bot_response, mood=mood)

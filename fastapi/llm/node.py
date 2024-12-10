@@ -15,7 +15,6 @@ class State(TypedDict):
 
 def generation_node(state: State):
     username = state["username"]
-    mood = state["mood"]
     question = state["question"]
     chat_history = state["chat_history"]
 
@@ -25,7 +24,7 @@ def generation_node(state: State):
             {"role": "assistant", "content": "Halo juga"}
         ]
 
-    result = chain.invoke({"question": question, "chat_history": chat_history, "username": username})
+    result = chain.invoke({"user_input": question, "chat_history": chat_history, "username": username})
     generation = result.response
     mood = result.mood
 
