@@ -2,7 +2,6 @@ import datetime
 from langchain.prompts import MessagesPlaceholder, ChatPromptTemplate
 from langchain_ollama import ChatOllama
 
-from pydantic import BaseModel, Field
 from dotenv import load_dotenv, find_dotenv
 import os
 from models import ResponseSchema
@@ -11,7 +10,7 @@ from models import ResponseSchema
 load_dotenv(find_dotenv())
 
 model_config = os.getenv("MODEL_CONFIG")
-llm = ChatOllama(model=model_config, temperature=0)
+llm = ChatOllama(model=model_config)
 structured_llm = llm.with_structured_output(ResponseSchema)
 
 template = """
@@ -48,7 +47,7 @@ if __name__ == "__main__":
 
     chat_history = []
     response = chain.invoke({
-        "user_input": "Halooo", 
+        "user_input": "siapa kamu?", 
         "chat_history": chat_history,
         "username": "ambatukam"})
 

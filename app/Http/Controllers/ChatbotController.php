@@ -25,9 +25,13 @@ class ChatbotController extends Controller
         $access_token = $request->session()->get('access_token');
         $refresh_token = $request->session()->get('refresh_token');
 
-        $response = Http::withToken($access_token)->post('http://localhost:8001/chat', [
-            'message' => $message
-        ]);
+        try {
+            $response = Http::withToken($access_token)->post('http://localhost:8001/chat', [
+                'message' => $message
+            ]);
+        } catch (\Exception $e) {
+            return $response->json(['error' => 'Bad request'], 400);
+        }
 
         if ($response->status() == 401) {
             $refresh_response = Http::post('http://localhost:8000/refresh-token', [

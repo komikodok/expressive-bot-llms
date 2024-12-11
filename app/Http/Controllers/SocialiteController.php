@@ -6,6 +6,7 @@ use App\Models\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialiteController extends Controller
@@ -41,10 +42,12 @@ class SocialiteController extends Controller
         $access_token = $this->generate_token($user_from_db, 30); // 30 minutes expired
         $refresh_token = $this->generate_token($user_from_db, 60 * 5); // 5 hours expired
 
-        return redirect()->route('index')->with([
+        session([
             'access_token' => $access_token,
             'refresh_token' => $refresh_token
         ]);
+
+        return redirect()->route('index');
     }
 
     public function logout(Request $request) 
