@@ -26,23 +26,31 @@ class ChatbotController extends Controller
         $refresh_token = $request->session()->get('refresh_token');
 
         try {
-            $response = Http::withToken($access_token)->post('http://localhost:8001/chat', [
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $access_token,
+                'Content-Type' => 'application/json'
+            ])->post('http://localhost:8001/chat', [
                 'message' => $message
             ]);
         } catch (\Exception $e) {
-            return $response->json(['error' => 'Bad request'], 400);
+            return response()->json(['error' => 'Bad request'], 400);
         }
 
         if ($response->status() == 401) {
-            $refresh_response = Http::post('http://localhost:8000/refresh-token', [
+            Log::info('Sending refresh token.....');
+            $refresh_response = Http::timeout(120)->post('http://localhost:8000/refresh-token', [
                 'refresh_token' => $refresh_token
             ]);
+            Log::info('Refresh token: ', ['refresh_token' => $refresh_response->json('access_token')]);
 
             if ($refresh_response->status() == 200) {
                 $new_access_token = $refresh_response->json('access_token');
                 $request->session()->put('access_token', $new_access_token);
 
-                $response = Http::withToken($new_access_token)->post('http://localhost:8001/chat', [
+                $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $new_access_token,
+                    'Content-Type' => 'application/json'
+                ])->post('http://localhost:8001/chat', [
                     'message' => $message
                 ]);
             } else {
@@ -51,7 +59,7 @@ class ChatbotController extends Controller
         }
 
         return response()->json([
-            'response' => $response->json('response'),
+            'generation' => $response->json('generation'),
             'mood' => $response->json('mood')
         ]);
     }

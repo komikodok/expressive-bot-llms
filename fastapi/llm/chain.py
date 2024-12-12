@@ -20,6 +20,9 @@ template = """
     **Context:**
     The user's name is `{username}`. Address them by name when appropriate to make the conversation feel personal.
 
+    **Datetime:**
+    Datetime now is `{datetime}`
+
     **Output Format:** 
     Return the output as a Pydantic object with:
     - `response` (string): Your reply to the user.
@@ -35,6 +38,8 @@ prompt = ChatPromptTemplate.from_messages(
         ("human", "{user_input}")
     ]
 )
+
+prompt = prompt.partial(datetime=datetime.datetime.now().strftime('%H:%M:%S'))
 
 chain = (
     prompt

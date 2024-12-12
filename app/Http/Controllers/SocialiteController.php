@@ -63,8 +63,7 @@ class SocialiteController extends Controller
     {
         $payload = [
             'iss' => 'http://localhost:8000',
-            'sub' => $user->id,
-            'username' => $user->name,
+            'sub' => (string) $user->name,
             'iat' => time(),
             'exp' => time() + ($minutes * 60)
         ];

@@ -7,7 +7,7 @@ from typing import (
 
 class State(TypedDict):
     username: str
-    question: str
+    user_input: str
     generation: str
     mood: Literal["happy", "sad", "angry", "excited"]
     chat_history: list
@@ -15,7 +15,7 @@ class State(TypedDict):
 
 def generation_node(state: State):
     username = state["username"]
-    question = state["question"]
+    user_input = state["user_input"]
     chat_history = state["chat_history"]
 
     if chat_history is None:
@@ -24,25 +24,25 @@ def generation_node(state: State):
             {"role": "assistant", "content": "Halo juga"}
         ]
 
-    result = chain.invoke({"user_input": question, "chat_history": chat_history, "username": username})
+    result = chain.invoke({"user_input": user_input, "chat_history": chat_history, "username": username})
     generation = result.response
     mood = result.mood
 
     return {
         "username": username,
-        "question": question,
+        "user_input": user_input,
         "generation": generation,
         "mood": mood,
         "chat_history": chat_history
     }
 
 def insert_chat_history(state: State):
-    question = state["question"]
+    user_input = state["user_input"]
     generation = state["generation"]
     mood = state["mood"]
     chat_history = state["chat_history"]
 
-    chat_history.append({"role": "user", "content": question})
+    chat_history.append({"role": "user", "content": user_input})
     chat_history.append({"role": "assistant", "content": generation})
 
     return {

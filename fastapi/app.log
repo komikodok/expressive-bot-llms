@@ -1,6 +1,20 @@
-2024-12-11 21:49:20,442 - DEBUG - This is a debug message
-2024-12-11 21:49:20,443 - INFO - This is an info message
-2024-12-11 21:49:20,443 - WARNING - This is a warning message
-2024-12-11 21:51:13,841 - DEBUG - This is a debug message
-2024-12-11 21:51:13,842 - INFO - This is an info message
-2024-12-11 21:51:13,842 - WARNING - This is a warning message
+2024-12-12 19:38:34,825 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734006310, 'exp': 1734008110}
+2024-12-12 19:38:34,825 - INFO - Chat route called
+2024-12-12 19:38:34,825 - INFO - Received request body: {'message': 'Haloo'}
+2024-12-12 19:40:24,556 - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2024-12-12 19:40:24,589 - INFO - Response Bot: {'username': 'Loba Duit', 'question': 'Haloo', 'generation': 'Halo Loba Duit! Selamat malam. Bagaimana kabar Anda?', 'mood': 'happy', 'chat_history': [{'role': 'user', 'content': 'Haloo'}, {'role': 'assistant', 'content': 'Halo Loba Duit! Selamat malam. Bagaimana kabar Anda?'}]}
+2024-12-12 19:42:15,485 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Kaori Cicak', 'iat': 1734007328, 'exp': 1734009128}
+2024-12-12 19:42:15,500 - INFO - Chat route called
+2024-12-12 19:42:15,500 - INFO - Received request body: {'message': 'haloo'}
+2024-12-12 19:43:29,116 - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2024-12-12 19:43:29,126 - INFO - Response Bot: {'username': 'Kaori Cicak', 'question': 'haloo', 'generation': 'Halo Kaori Cicak, selamat malam! Bagaimana kabar Anda?', 'mood': 'happy', 'chat_history': [{'role': 'user', 'content': 'haloo'}, {'role': 'assistant', 'content': 'Halo Kaori Cicak, selamat malam! Bagaimana kabar Anda?'}]}
+2024-12-12 20:33:19,529 - ERROR - Token expired Signature has expired
+2024-12-12 20:38:56,654 - ERROR - Token expired Signature has expired
+2024-12-12 20:42:20,766 - ERROR - Token expired Signature has expired
+2024-12-12 20:45:01,689 - ERROR - Token expired Signature has expired
+2024-12-12 20:47:47,028 - ERROR - Token expired Signature has expired
+2024-12-12 20:53:54,291 - ERROR - Token expired Signature has expired
+2024-12-12 20:59:50,596 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Kaori Cicak', 'iat': 1734011985, 'exp': 1734013785}
+2024-12-12 20:59:50,599 - INFO - Chat route called
+2024-12-12 20:59:50,600 - INFO - Received request body: {'message': 'halo'}
+2024-12-12 21:02:03,235 - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"

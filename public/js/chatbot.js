@@ -33,9 +33,10 @@ document.querySelector('#chatForm').addEventListener('submit', async function (e
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
             }
         });
-        console.log(response.data)
-        appendMessage('assistant', response.data.response);
+        console.log(response.data);
+        appendMessage('assistant', response.data.generation);
     } catch (error) {
+        console.log(error);
         appendMessage('assistant', `Something went wrong, Please try again. Error: ${error.message}`);
     }
     
