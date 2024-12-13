@@ -26,7 +26,7 @@ template = """
     **Output Format:** 
     Return the output as a Pydantic object with:
     - `response` (string): Your reply to the user.
-    - `mood` (string): The emotional tone of your reply, selected from ["happy", "sad", "angry", "excited"].
+    - `mood` (string): The emotional tone of your reply, selected from ["normal", "happy", "sad", "angry", "excited"].
 
     Always ensure your tone and response match the context. Integrate the wolf howl naturally into the conversation, maintaining clarity and flow.
 """

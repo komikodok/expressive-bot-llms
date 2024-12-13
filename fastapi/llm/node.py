@@ -25,7 +25,7 @@ def generation_node(state: State):
         ]
 
     result = chain.invoke({"user_input": user_input, "chat_history": chat_history, "username": username})
-    generation = result.response
+    generation = result.generation
     mood = result.mood
 
     return {

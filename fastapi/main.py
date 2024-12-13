@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.middleware.cors import CORSMiddleware
 import jwt
 
 import logging
@@ -7,7 +8,7 @@ from pydantic import ValidationError
 from llm.llm_app import LLMApp
 from dotenv import load_dotenv, find_dotenv
 import os
-from models import RequestSchema, ResponseSchema
+from models import RequestSchema, ResponseSchema, Payload
 
 load_dotenv(find_dotenv())
 
@@ -25,13 +26,13 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
+def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)) -> Payload:
     """Verify jwt token
 
     Args:
         credentials: JWT token based on Authorization Bearer
 
-    Raises:
+    Exception:
         HTTPException: http_error_401 if token expired
         HTTPException: http_error_403 if invalid token
 
@@ -42,7 +43,7 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)) 
         token = credentials.credentials
         decode_payload = jwt.decode(token, SECRET_KEY, ["HS256"])
         logger.info(f"Token valid: {decode_payload}")
-        return decode_payload
+        return Payload(**decode_payload)
     except jwt.ExpiredSignatureError as e:
         logger.error(f"Token expired {e}")
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Token expired")
@@ -50,18 +51,26 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)) 
         logger.error(f"Invalid token {e}")
         raise HTTPException(status.HTTP_403_FORBIDDEN, detail="Invalid token")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8000"],
+    allow_credentials=True,
+    allow_methods=["POST"],
+    allow_headers=["Content-Type", "Authorization"],
+)
 
 @app.post('/chat', dependencies=[Depends(verify_token)])
 async def response_items(
     request: Request,
     message: RequestSchema,
-    decode_payload = Depends(verify_token)
+    payload = Depends(verify_token)
     ) -> ResponseSchema:
 
     logger.info("Chat route called")
     logger.info("Received request body: %s", await request.json())
     
-    username = decode_payload.get("sub", " ")
+    payload_dict = payload.dict()
+    username = payload_dict.get("sub", " ")
     chat_history = []
 
     try:
