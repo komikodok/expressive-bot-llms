@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 import jwt
 
 import logging
@@ -58,11 +59,15 @@ app.add_middleware(
     allow_methods=["POST"],
     allow_headers=["Content-Type", "Authorization"],
 )
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=SECRET_KEY
+)
 
 @app.post('/chat', dependencies=[Depends(verify_token)])
 async def response_items(
     request: Request,
-    message: RequestSchema,
+    data: RequestSchema,
     payload = Depends(verify_token)
     ) -> ResponseSchema:
 
@@ -71,16 +76,20 @@ async def response_items(
     
     payload_dict = payload.dict()
     username = payload_dict.get("sub", " ")
-    chat_history = []
+
+    chat_history = request.session.get("chat_history", [])
 
     try:
-        result = await llm_app.ainvoke({"user_input": message.message, "username": username, "chat_history": chat_history})
+        result = await llm_app.ainvoke({"user_input": data.message, "username": username})
+        request.session["chat_history"] = chat_history
         logger.info(f"Response Bot: {result}")
+        logger.info(f"Chat history: {chat_history}")
     except ValidationError as e:
         logger.error(f"Validation error: {e}")
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Validation error: {e.errors}")
     
-    generation = result['generation']
-    mood = result['mood']
+    generation = result.get('generation')
+    mood = result.get('mood')
+    chat_history = result.get("chat_history")
 
-    return ResponseSchema(generation=generation, mood=mood)
+    return ResponseSchema(generation=generation, mood=mood, chat_history=chat_history)

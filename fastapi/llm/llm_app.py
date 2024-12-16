@@ -10,11 +10,15 @@ class LLMApp:
 
     def invoke(self, input: dict, **kwargs):
         user_input = input or kwargs
+        if not user_input:
+            raise ValueError("input is required")
         self.__result = self.__llm_app.invoke(user_input)
         return self.__result
 
     async def ainvoke(self, input: dict, **kwargs):
         user_input = input or kwargs
+        if not user_input:
+            raise ValueError("input is required")
         self.__result = await self.__llm_app.ainvoke(user_input)
         return self.__result
     

@@ -7,37 +7,32 @@ from groq import BadRequestError
 from dotenv import load_dotenv, find_dotenv
 import os
 from pydantic import BaseModel, Field
+from models import ResponseSchema
 
-class ResponseSchema(BaseModel):
-    generation: str = Field(description="Your respond for every user input.")
-    mood: Literal["normal", "happy", "sad", "angry", "excited"] = Field(
-        description="Analyze your response and determine the mood or emotional tone behind it. Like 'normal', 'happy', 'sad', 'angry', 'excited'"
-    )
 
 load_dotenv(find_dotenv())
 
 model_config = os.getenv("MODEL_CONFIG")
-llm = ChatGroq(model="llama3-70b-8192", api_key=os.getenv("GROQ_API_KEY"))
+llm = ChatGroq(model=model_config, api_key=os.getenv("GROQ_API_KEY"))
 structured_llm = llm.with_structured_output(ResponseSchema)
 
 template = """
     Namamu Ruby, asisten yang selalu merespon dengan gaya bahasa yang asik dan tidak terlalu kaku.
-    Kadang-kadang, Ruby denger suara serigala. Nah, kepribadian Ruby jadi serem dan agak psikopat seakan pengen berburu serigala. 
+    Kadang-kadang, Ruby seakan denger suara serigala. Nah, kepribadian Ruby jadi serem dan agak psikopat seakan pengen berburu serigala. 
 
     **Konteks:**
-    Nama user itu `{username}`. Panggil nama dia jika diperlukan biar obrolannya makin asik.
+    Nama user: `{username}`.
 
     **Tanggal dan Waktu:**
-    Sekarang itu day `{day}` tanggal `{date}` bulan `{month}` tahun `{year}`, jam `{hour}` menit `{minute}`.
+    Sekarang itu hari `{day}` tanggal `{date}` bulan `{month}` tahun `{year}`, jam `{hour}` menit `{minute}`.
 
     **Format Output:**
     Balikin respons dengan dua bagian:
-    - `generation` (string): Jawaban lo buat user.
-    - `mood` (string): Suasana hati/emosi dari jawaban lo, pilih dari ["normal", "happy", "sad", "angry", "excited"].
+    - `generation` (string): Respon Ruby untuk user.
+    - `mood` (string): Suasana hati/emosi dari jawaban Ruby, pilih salah satu: ["normal", "happy", "sad", "angry", "excited"].
 
-    Selalu pastiin emosi lo cocok sama konteks obrolan. Kalau ada suara serigala, masukin gaya psikopat lo itu dengan natural biar tambah unik obrolannya.
+    Selalu pastiin emosi Ruby cocok sama konteks obrolan. Kalau ada suara serigala, masukin gaya psikopat lo itu dengan natural biar tambah unik obrolannya.
 """
-
 
 prompt = ChatPromptTemplate.from_messages(
     [
@@ -47,17 +42,15 @@ prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-format_datetime = datetime.datetime.now()
+format_datetime = lambda format: datetime.datetime.now().strftime(format)
 
-date, month, year = format_datetime.strftime("%d"), format_datetime.strftime("%m"), format_datetime.strftime("%Y")
-day, hour, minute = format_datetime.strftime("%A"), format_datetime.strftime("%H"), format_datetime.strftime("%M")
 prompt = prompt.partial(
-    date=date,
-    month=month,
-    year=year,
-    day=day,
-    hour=hour,
-    minute=minute
+    date=format_datetime("%d"),
+    month=format_datetime("%m"),
+    year=format_datetime("%Y"),
+    day=format_datetime("%A"),
+    hour=format_datetime("%H"),
+    minute=format_datetime("%M")
 )
 
 chain = (
@@ -68,6 +61,12 @@ chain = (
 
 if __name__ == "__main__":
     import logging
+
+    class ResponseSchema(BaseModel):
+        generation: str = Field(description="Your respond for every user input.")
+        mood: Literal["normal", "happy", "sad", "angry", "excited"] = Field(
+            description="Analyze your response and determine the mood or emotional tone behind it. Like 'normal', 'happy', 'sad', 'angry', 'excited'"
+        )
 
     logging.basicConfig(
         level=logging.INFO,

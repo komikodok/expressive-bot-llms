@@ -155,3 +155,94 @@ mood
 2024-12-13 21:50:35,487 - INFO - Response Bot: {'username': 'Kaori Cicak', 'user_input': 'baiklah', 'generation': 'Baiklah, Kaori Cicak! Saya Ruby, asisten yang siap membantu Anda.', 'mood': 'normal', 'chat_history': [{'role': 'user', 'content': 'baiklah'}, {'role': 'assistant', 'content': 'Baiklah, Kaori Cicak! Saya Ruby, asisten yang siap membantu Anda.'}]}
 2024-12-13 21:51:21,237 - ERROR - Token expired Signature has expired
 2024-12-13 21:56:52,723 - ERROR - Token expired Signature has expired
+2024-12-16 12:53:36,525 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734328385, 'exp': 1734330185}
+2024-12-16 12:53:36,528 - INFO - Chat route called
+2024-12-16 12:53:36,529 - INFO - Received request body: {'message': 'halo juuga'}
+2024-12-16 12:59:14,728 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734328385, 'exp': 1734330185}
+2024-12-16 12:59:14,730 - INFO - Chat route called
+2024-12-16 12:59:14,730 - INFO - Received request body: {'message': 'halo'}
+2024-12-16 13:00:13,437 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734328385, 'exp': 1734330185}
+2024-12-16 13:00:13,440 - INFO - Chat route called
+2024-12-16 13:00:13,440 - INFO - Received request body: {'message': 'halo'}
+2024-12-16 13:00:15,023 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-16 13:00:15,048 - INFO - Response Bot: {'username': 'Loba Duit', 'user_input': 'halo', 'generation': 'Halo Loba Duit, ada apa hari ini?', 'mood': 'normal', 'chat_history': [{'role': 'user', 'content': 'Halo'}, {'role': 'assistant', 'content': '', 'tool_calls': [{'type': 'function', 'id': '1', 'function': {'name': 'response', 'arguments': {'generation': 'Halo juga', 'mood': 'normal'}}}]}, {'role': 'tool', 'tool_call_id': '1', 'content': ''}, {'role': 'user', 'content': 'halo'}, {'role': 'assistant', 'content': 'Halo Loba Duit, ada apa hari ini?'}]}
+2024-12-16 13:01:12,186 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734328385, 'exp': 1734330185}
+2024-12-16 13:01:12,187 - INFO - Chat route called
+2024-12-16 13:01:12,188 - INFO - Received request body: {'message': 'gada apa2'}
+2024-12-16 13:01:14,143 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-16 13:01:14,147 - INFO - Response Bot: {'username': 'Loba Duit', 'user_input': 'gada apa2', 'generation': 'Halo Loba Duit, gada apa-apa sih?', 'mood': 'normal', 'chat_history': [{'role': 'user', 'content': 'Halo'}, {'role': 'assistant', 'content': '', 'tool_calls': [{'type': 'function', 'id': '1', 'function': {'name': 'response', 'arguments': {'generation': 'Halo juga', 'mood': 'normal'}}}]}, {'role': 'tool', 'tool_call_id': '1', 'content': ''}, {'role': 'user', 'content': 'gada apa2'}, {'role': 'assistant', 'content': 'Halo Loba Duit, gada apa-apa sih?'}]}
+2024-12-16 13:06:06,958 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734328385, 'exp': 1734330185}
+2024-12-16 13:06:06,960 - INFO - Chat route called
+2024-12-16 13:06:06,961 - INFO - Received request body: {'message': 'ha'}
+2024-12-16 13:06:07,770 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-16 13:06:07,783 - INFO - Response Bot: {'username': 'Loba Duit', 'user_input': 'ha', 'generation': 'Loba Duit, ada apa?', 'mood': 'happy', 'chat_history': [{'role': 'user', 'content': 'Halo'}, {'role': 'assistant', 'content': '', 'tool_calls': [{'type': 'function', 'id': '1', 'function': {'name': 'response', 'arguments': {'generation': 'Halo juga', 'mood': 'normal'}}}]}, {'role': 'tool', 'tool_call_id': '1', 'content': ''}, {'role': 'user', 'content': 'ha'}, {'role': 'assistant', 'content': 'Loba Duit, ada apa?'}]}
+2024-12-16 13:12:18,075 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734328385, 'exp': 1734330185}
+2024-12-16 13:12:18,077 - INFO - Chat route called
+2024-12-16 13:12:18,077 - INFO - Received request body: {'message': 'ha'}
+2024-12-16 13:12:52,806 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734328385, 'exp': 1734330185}
+2024-12-16 13:12:52,810 - INFO - Chat route called
+2024-12-16 13:12:52,811 - INFO - Received request body: {'message': 'ha'}
+2024-12-16 13:14:21,388 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734328385, 'exp': 1734330185}
+2024-12-16 13:14:21,390 - INFO - Chat route called
+2024-12-16 13:14:21,390 - INFO - Received request body: {'message': 'halo'}
+2024-12-16 13:14:23,048 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-16 13:14:23,065 - INFO - Response Bot: {'username': 'Loba Duit', 'user_input': 'halo', 'generation': 'Halo Loba Duit, apa kabar hari ini?', 'mood': 'normal', 'chat_history': [{'role': 'user', 'content': 'Halo'}, {'role': 'assistant', 'content': '', 'tool_calls': [{'type': 'function', 'id': 'first-conversation', 'function': {'name': 'response', 'arguments': {'generation': 'Halo juga', 'mood': 'normal'}}}]}, {'role': 'tool', 'tool_call_id': 'first-conversation', 'content': ''}, {'role': 'user', 'content': 'halo'}, {'role': 'assistant', 'content': 'Halo Loba Duit, apa kabar hari ini?'}]}
+2024-12-16 14:11:28,357 - ERROR - Token expired Signature has expired
+2024-12-16 14:18:52,367 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734333525, 'exp': 1734335325}
+2024-12-16 14:18:52,369 - INFO - Chat route called
+2024-12-16 14:18:52,369 - INFO - Received request body: {'message': 'siapa kamu?'}
+2024-12-16 14:18:54,002 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-16 14:18:54,013 - INFO - Response Bot: {'username': 'Loba Duit', 'user_input': 'siapa kamu?', 'generation': 'Aku Ruby, asisten yang asik dan seru!', 'mood': 'happy', 'chat_history': [{'role': 'user', 'content': 'Halo'}, {'role': 'assistant', 'content': '', 'tool_calls': [{'type': 'function', 'id': 'first-conversation', 'function': {'name': 'response', 'arguments': {'generation': 'Halo juga', 'mood': 'normal'}}}]}, {'role': 'tool', 'tool_call_id': 'first-conversation', 'content': ''}, {'role': 'user', 'content': 'siapa kamu?'}, {'role': 'assistant', 'content': 'Aku Ruby, asisten yang asik dan seru!'}]}
+2024-12-16 14:18:54,014 - INFO - Chat history: []
+2024-12-16 14:19:19,097 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734333525, 'exp': 1734335325}
+2024-12-16 14:19:19,098 - INFO - Chat route called
+2024-12-16 14:19:19,098 - INFO - Received request body: {'message': 'mantap ruby'}
+2024-12-16 14:19:19,875 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-16 14:19:19,878 - INFO - Response Bot: {'username': 'Loba Duit', 'user_input': 'mantap ruby', 'generation': 'Aku siap menyalakan insting serigalaku, Loba Duit!', 'mood': 'angry', 'chat_history': [{'role': 'user', 'content': 'Halo'}, {'role': 'assistant', 'content': '', 'tool_calls': [{'type': 'function', 'id': 'first-conversation', 'function': {'name': 'response', 'arguments': {'generation': 'Halo juga', 'mood': 'normal'}}}]}, {'role': 'tool', 'tool_call_id': 'first-conversation', 'content': ''}, {'role': 'user', 'content': 'mantap ruby'}, {'role': 'assistant', 'content': 'Aku siap menyalakan insting serigalaku, Loba Duit!'}]}
+2024-12-16 14:19:19,879 - INFO - Chat history: []
+2024-12-16 14:19:27,175 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734333525, 'exp': 1734335325}
+2024-12-16 14:19:27,176 - INFO - Chat route called
+2024-12-16 14:19:27,177 - INFO - Received request body: {'message': 'apasi'}
+2024-12-16 14:19:27,963 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-16 14:19:27,966 - INFO - Response Bot: {'username': 'Loba Duit', 'user_input': 'apasi', 'generation': 'Apa sih?', 'mood': 'angry', 'chat_history': [{'role': 'user', 'content': 'Halo'}, {'role': 'assistant', 'content': '', 'tool_calls': [{'type': 'function', 'id': 'first-conversation', 'function': {'name': 'response', 'arguments': {'generation': 'Halo juga', 'mood': 'normal'}}}]}, {'role': 'tool', 'tool_call_id': 'first-conversation', 'content': ''}, {'role': 'user', 'content': 'apasi'}, {'role': 'assistant', 'content': 'Apa sih?'}]}
+2024-12-16 14:19:27,967 - INFO - Chat history: []
+2024-12-16 14:19:33,476 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734333525, 'exp': 1734335325}
+2024-12-16 14:19:33,477 - INFO - Chat route called
+2024-12-16 14:19:33,477 - INFO - Received request body: {'message': 'lah?'}
+2024-12-16 14:19:34,161 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-16 14:19:34,167 - INFO - Response Bot: {'username': 'Loba Duit', 'user_input': 'lah?', 'generation': 'Kamu mau ngobrol tentang apa, Loba Duit?', 'mood': 'normal', 'chat_history': [{'role': 'user', 'content': 'Halo'}, {'role': 'assistant', 'content': '', 'tool_calls': [{'type': 'function', 'id': 'first-conversation', 'function': {'name': 'response', 'arguments': {'generation': 'Halo juga', 'mood': 'normal'}}}]}, {'role': 'tool', 'tool_call_id': 'first-conversation', 'content': ''}, {'role': 'user', 'content': 'lah?'}, {'role': 'assistant', 'content': 'Kamu mau ngobrol tentang apa, Loba Duit?'}]}
+2024-12-16 14:19:34,168 - INFO - Chat history: []
+2024-12-16 14:59:48,104 - ERROR - Token expired Signature has expired
+2024-12-16 15:00:05,757 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734336001, 'exp': 1734337801}
+2024-12-16 15:00:05,758 - INFO - Chat route called
+2024-12-16 15:00:05,759 - INFO - Received request body: {'message': 'halo'}
+2024-12-16 15:00:07,282 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-16 15:00:07,287 - INFO - Response Bot: {'username': 'Loba Duit', 'user_input': 'halo', 'generation': 'Halo Loba Duit, siapa yang ingin diburu hari ini?', 'mood': 'angry', 'chat_history': [{'role': 'user', 'content': 'Halo'}, {'role': 'assistant', 'content': '', 'tool_calls': [{'type': 'function', 'id': 'first-conversation', 'function': {'name': 'response', 'arguments': {'generation': 'Halo juga', 'mood': 'normal'}}}]}, {'role': 'tool', 'tool_call_id': 'first-conversation', 'content': ''}, {'role': 'user', 'content': 'halo'}, {'role': 'assistant', 'content': 'Halo Loba Duit, siapa yang ingin diburu hari ini?'}]}
+2024-12-16 15:00:07,289 - INFO - Chat history: []
+2024-12-16 15:00:14,024 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734336001, 'exp': 1734337801}
+2024-12-16 15:00:14,025 - INFO - Chat route called
+2024-12-16 15:00:14,025 - INFO - Received request body: {'message': 'serigala'}
+2024-12-16 15:00:14,729 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-16 15:00:14,733 - INFO - Response Bot: {'username': 'Loba Duit', 'user_input': 'serigala', 'generation': 'Aku dengar suara serigala, Loba Duit. Kau pengen berburu denganku?', 'mood': 'angry', 'chat_history': [{'role': 'user', 'content': 'Halo'}, {'role': 'assistant', 'content': '', 'tool_calls': [{'type': 'function', 'id': 'first-conversation', 'function': {'name': 'response', 'arguments': {'generation': 'Halo juga', 'mood': 'normal'}}}]}, {'role': 'tool', 'tool_call_id': 'first-conversation', 'content': ''}, {'role': 'user', 'content': 'serigala'}, {'role': 'assistant', 'content': 'Aku dengar suara serigala, Loba Duit. Kau pengen berburu denganku?'}]}
+2024-12-16 15:00:14,734 - INFO - Chat history: []
+2024-12-16 15:00:23,277 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734336001, 'exp': 1734337801}
+2024-12-16 15:00:23,278 - INFO - Chat route called
+2024-12-16 15:00:23,278 - INFO - Received request body: {'message': 'yuk'}
+2024-12-16 15:00:24,376 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-16 15:00:24,381 - INFO - Response Bot: {'username': 'Loba Duit', 'user_input': 'yuk', 'generation': 'Apa kabar, Loba?', 'mood': 'happy', 'chat_history': [{'role': 'user', 'content': 'Halo'}, {'role': 'assistant', 'content': '', 'tool_calls': [{'type': 'function', 'id': 'first-conversation', 'function': {'name': 'response', 'arguments': {'generation': 'Halo juga', 'mood': 'normal'}}}]}, {'role': 'tool', 'tool_call_id': 'first-conversation', 'content': ''}, {'role': 'user', 'content': 'yuk'}, {'role': 'assistant', 'content': 'Apa kabar, Loba?'}]}
+2024-12-16 15:00:24,381 - INFO - Chat history: []
+2024-12-16 18:48:14,861 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734349687, 'exp': 1734351487}
+2024-12-16 18:48:14,863 - INFO - Chat route called
+2024-12-16 18:48:14,863 - INFO - Received request body: {'message': 'siapa ini?'}
+2024-12-16 21:38:37,981 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734359913, 'exp': 1734361713}
+2024-12-16 21:38:37,982 - INFO - Chat route called
+2024-12-16 21:38:37,983 - INFO - Received request body: {'message': 'oi'}
+2024-12-16 21:38:39,761 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-16 21:38:39,776 - INFO - Response Bot: {'username': 'Loba Duit', 'user_input': 'oi', 'generation': 'Oi juga, ada apa?', 'mood': 'normal', 'chat_history': [{'role': 'user', 'content': 'Halo'}, {'role': 'assistant', 'content': '', 'tool_calls': [{'type': 'function', 'id': 'first-conversation', 'function': {'name': 'response', 'arguments': {'generation': 'Halo juga', 'mood': 'normal'}}}]}, {'role': 'tool', 'tool_call_id': 'first-conversation', 'content': ''}, {'role': 'user', 'content': 'oi'}, {'role': 'assistant', 'content': 'Oi juga, ada apa?'}]}
+2024-12-16 21:38:39,777 - INFO - Chat history: []
+2024-12-16 21:39:31,031 - INFO - Token valid: {'iss': 'http://localhost:8000', 'sub': 'Loba Duit', 'iat': 1734359913, 'exp': 1734361713}
+2024-12-16 21:39:31,033 - INFO - Chat route called
+2024-12-16 21:39:31,033 - INFO - Received request body: {'message': 'mantap'}
+2024-12-16 21:39:32,436 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-16 21:39:32,465 - INFO - Response Bot: {'username': 'Loba Duit', 'user_input': 'mantap', 'generation': 'Mantap juga, Loba! Ada apa hari ini?', 'mood': 'happy', 'chat_history': [{'role': 'user', 'content': 'Halo'}, {'role': 'assistant', 'content': '', 'tool_calls': [{'type': 'function', 'id': 'first-conversation', 'function': {'name': 'response', 'arguments': {'generation': 'Halo juga', 'mood': 'normal'}}}]}, {'role': 'tool', 'tool_call_id': 'first-conversation', 'content': ''}, {'role': 'user', 'content': 'mantap'}, {'role': 'assistant', 'content': 'Mantap juga, Loba! Ada apa hari ini?'}]}
+2024-12-16 21:39:32,466 - INFO - Chat history: []
