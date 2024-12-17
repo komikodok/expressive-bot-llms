@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use App\Models\Session;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
@@ -36,15 +38,24 @@ class SocialiteController extends Controller
             ]
         );
 
+        $session = Session::where('user_id', $user_from_db->id)->latest('last_activity')->first();
+
+        if (!$session) {
+            $session = Session::create([
+                'id' => Str::uuid(),
+                'user_id' => $user_from_db->id,
+                'last_activity' => time()
+            ]);
+        }
+
         auth('web')->login($user_from_db);
         session()->regenerate();
 
-        $access_token = $this->generate_token($user_from_db, 30); // 30 minutes expired
-        $refresh_token = $this->generate_token($user_from_db, 60 * 5); // 5 hours expired
+        $access_token = $this->generate_token($user_from_db, 60 * 5); // 5 hours expired
 
         session([
             'access_token' => $access_token,
-            'refresh_token' => $refresh_token
+            'session_id' => $session->id
         ]);
 
         return redirect()->route('index');
@@ -69,25 +80,4 @@ class SocialiteController extends Controller
         ];
         return JWT::encode($payload, env('SECRET_KEY'), 'HS256');
     }
-
-    public function refresh_token(Request $request)
-    {
-        $refresh_token = $request->input('refresh_token');
-    
-        try {
-            $decoded = JWT::decode($refresh_token, new Key(env('SECRET_KEY'), 'HS256'));
-            $user = User::find($decoded->sub);
-    
-            if (!$user) {
-                return response()->json(['error' => 'Invalid token'], 401);
-            }
-    
-            $new_access_token = $this->generate_token($user, 30); // 30 minutes expired
-            return response()->json(['access_token' => $new_access_token]);
-    
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Invalid or expired refresh token'], 401);
-        }
-    }
-    
 }

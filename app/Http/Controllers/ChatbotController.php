@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -23,7 +24,7 @@ class ChatbotController extends Controller
         $message = $request->input('message', '');
 
         $access_token = $request->session()->get('access_token');
-        $refresh_token = $request->session()->get('refresh_token');
+        $session_id = $request->session()->get('session_id');
 
         try {
             $response = Http::withHeaders([
@@ -37,26 +38,16 @@ class ChatbotController extends Controller
         }
 
         if ($response->status() == 401) {
-            Log::info('Sending refresh token.....');
-            $refresh_response = Http::timeout(120)->post('http://localhost:8000/refresh-token', [
-                'refresh_token' => $refresh_token
-            ]);
-            Log::info('Refresh token: ', ['refresh_token' => $refresh_response->json('access_token')]);
-
-            if ($refresh_response->status() == 200) {
-                $new_access_token = $refresh_response->json('access_token');
-                $request->session()->put('access_token', $new_access_token);
-
-                $response = Http::withHeaders([
-                    'Authorization' => 'Bearer ' . $new_access_token,
-                    'Content-Type' => 'application/json'
-                ])->post('http://localhost:8001/chat', [
-                    'message' => $message
-                ]);
-            } else {
-                return redirect()->route('google.logout')->with('error', 'Session expired, please log in again.');
-            }
+            return redirect()->route('google.logout')->with('error', 'Session expired, please log in again.');
         }
+
+        Message::create([
+            'session_id' => $session_id,
+            'metadata' => [
+                ['role' => 'user', 'content' => $message],
+                ['role' => 'assistant', 'content' => $response->json('generation')]
+            ]
+        ]);
 
         return response()->json([
             'generation' => $response->json('generation'),
