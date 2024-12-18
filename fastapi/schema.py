@@ -11,7 +11,6 @@ class ResponseSchema(BaseModel):
     mood: Literal["normal", "happy", "sad", "angry", "excited"] = Field(
         description="Analyze your response and determine the mood or emotional tone behind it. Like 'normal', 'happy', 'sad', 'angry', 'excited'"
     )
-    chat_history: list
 
 
 class Payload(BaseModel):

@@ -58,7 +58,7 @@ class SocialiteController extends Controller
             'session_id' => $session->id
         ]);
 
-        return redirect()->route('index');
+        return redirect()->route('index.login');
     }
 
     public function logout(Request $request) 

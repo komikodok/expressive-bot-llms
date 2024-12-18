@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('session_id');
             $table->foreign('session_id')->references('id')->on('sessions')->onDelete('cascade');
-            $table->json('metadata')->nullable();
+            $table->json('message_history')->nullable();
             $table->timestamps();
         });
     }

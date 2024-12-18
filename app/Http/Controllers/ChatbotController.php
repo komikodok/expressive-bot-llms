@@ -30,7 +30,7 @@ class ChatbotController extends Controller
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $access_token,
                 'Content-Type' => 'application/json'
-            ])->post('http://localhost:8001/chat', [
+            ])->post('http://localhost:8001/chat/' . $session_id, [
                 'message' => $message
             ]);
         } catch (\Exception $e) {
@@ -43,7 +43,7 @@ class ChatbotController extends Controller
 
         Message::create([
             'session_id' => $session_id,
-            'metadata' => [
+            'message_history' => [
                 ['role' => 'user', 'content' => $message],
                 ['role' => 'assistant', 'content' => $response->json('generation')]
             ]

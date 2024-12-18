@@ -7,7 +7,7 @@ from groq import BadRequestError
 from dotenv import load_dotenv, find_dotenv
 import os
 from pydantic import BaseModel, Field
-from models import ResponseSchema
+from schema import ResponseSchema
 
 
 load_dotenv(find_dotenv())

@@ -10,7 +10,7 @@ class State(TypedDict):
     user_input: str
     generation: str
     mood: Literal["happy", "sad", "angry", "excited"]
-    chat_history: list
+    message_history: list
 
 
 def generation_node(state: State):
@@ -38,9 +38,9 @@ def generation_node(state: State):
         },
         {"role": "tool", "tool_call_id": "first-conversation", "content": ""}
     ]
-    chat_history = state.get("chat_history", start_conversation)
+    message_history = state.get("message_history", start_conversation)
 
-    result = chain.invoke({"user_input": user_input, "chat_history": chat_history, "username": username})
+    result = chain.invoke({"user_input": user_input, "chat_history": message_history, "username": username})
     generation = result.generation
     mood = result.mood
 
@@ -49,17 +49,17 @@ def generation_node(state: State):
         "user_input": user_input,
         "generation": generation,
         "mood": mood,
-        "chat_history": chat_history
+        "message_history": message_history
     }
 
-def insert_chat_history(state: State):
+def insert_message_history(state: State):
     user_input = state.get("user_input")
     generation = state.get("generation")
     mood = state.get("mood")
-    chat_history = state.get("chat_history")
+    message_history = state.get("message_history")
 
-    chat_history.append({"role": "user", "content": user_input})
-    chat_history.append({"role": "assistant", "content": generation})
+    message_history.append({"role": "user", "content": user_input})
+    message_history.append({"role": "assistant", "content": generation})
 
     return {
         "generation": generation,
