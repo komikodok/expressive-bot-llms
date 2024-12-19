@@ -3,20 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
-use Illuminate\Support\Facades\Log;
+use App\Models\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 
 class ChatbotController extends Controller
 {
     public function index()
     {
-        return view('chatbot');
+        return view('index');
     }
 
-    public function create()
+    public function chat(Request $request, ?string $session_id = null)
     {
-        
+        $user_id = $request->session()->get('user_id');
+        $session = Session::where('id', $session_id)->where('user_id', $user_id)->first();
+
+        if (!$session) {
+            $session = Session::create([
+                'id' => $session_id,
+                'user_id' => $user_id,
+                'last_activity' => time()
+            ]);
+
+            $request->session()->put('session_id', $session->id);
+        }
+
+        return view('chat'); // data = menyimpan message session query database
     }
 
     public function store(Request $request)

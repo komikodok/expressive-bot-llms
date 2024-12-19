@@ -55,10 +55,11 @@ class SocialiteController extends Controller
 
         session([
             'access_token' => $access_token,
-            'session_id' => $session->id
+            'session_id' => $session->id,
+            'user_id' => $user_from_db->id
         ]);
 
-        return redirect()->route('index.login');
+        return redirect()->route('chat');
     }
 
     public function logout(Request $request) 
