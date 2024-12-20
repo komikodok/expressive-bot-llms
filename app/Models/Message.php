@@ -9,6 +9,7 @@ class Message extends Model
 {
     protected $table = 'messages';
     protected $fillable = ['session_id', 'message_history'];
+    protected $casts = ['message_history' => 'array'];
 
     public function session(): BelongsTo
     {

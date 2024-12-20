@@ -59,7 +59,7 @@ class SocialiteController extends Controller
             'user_id' => $user_from_db->id
         ]);
 
-        return redirect()->route('chat');
+        return redirect()->route('chat', ['session_id' => $session->id]);
     }
 
     public function logout(Request $request) 

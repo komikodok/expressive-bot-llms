@@ -12,6 +12,7 @@ class Session extends Model
 {
     protected $table = 'sessions';
     protected $fillable = ['user_id'];
+    protected $with = 'messages';
 
     public function user(): BelongsTo
     {

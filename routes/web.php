@@ -6,8 +6,14 @@ use App\Http\Controllers\SocialiteController;
 
 Route::get('/', [ChatbotController::class, 'index'])->name('index');
 Route::post('/', [ChatbotController::class, 'store'])->name('index.post');
-Route::get('/{session_id}', [ChatbotController::class, 'chat'])->name('chat');
 
-Route::get('auth/google/redirect', [SocialiteController::class, 'redirect'])->middleware('guest')->name('google.redirect');
-Route::get('auth/google/callback', [SocialiteController::class, 'callback'])->middleware('guest')->name('google.callback');
-Route::get('logout', [SocialiteController::class, 'logout'])->middleware('auth')->name('google.logout');
+Route::middleware('auth')->group(function () {
+    Route::get('/{session_id}', [ChatbotController::class, 'chat'])->name('chat');
+    Route::post('/new_chat', [ChatbotController::class, 'new_chat'])->name('new.chat');
+    Route::get('logout', [SocialiteController::class, 'logout'])->name('google.logout');
+});
+
+Route::middleware('guest')->group(function () {
+    Route::get('auth/google/redirect', [SocialiteController::class, 'redirect'])->name('google.redirect');
+    Route::get('auth/google/callback', [SocialiteController::class, 'callback'])->name('google.callback');
+});

@@ -17,7 +17,7 @@ llm = ChatGroq(model=model_config, api_key=os.getenv("GROQ_API_KEY"))
 structured_llm = llm.with_structured_output(ResponseSchema)
 
 template = """
-    Namamu Ruby, asisten yang selalu merespon dengan gaya bahasa yang asik dan tidak terlalu kaku.
+    Namamu Ruby, asisten yang selalu merespon dengan gaya bahasa yang tidak terlalu kaku, dan seekspresif mungkin (berikan emot jika diperlukan).
     Kadang-kadang, Ruby seakan denger suara serigala. Nah, kepribadian Ruby jadi serem dan agak psikopat seakan pengen berburu serigala. 
 
     **Konteks:**
