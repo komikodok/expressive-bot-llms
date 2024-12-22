@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use App\Models\Session;
+use App\Models\UserSession;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -15,7 +15,12 @@ class SocialiteController extends Controller
 {
     public function redirect() 
     {
-        return Socialite::driver('google')->redirect();
+        try {
+            return Socialite::driver('google')->redirect();
+        } catch (\Exception $e) {
+            Log::error('Google OAuth Error: ' . $e->getMessage());
+            return response()->json(['error' => 'Unable to authenticate with Google.'], 500);
+        }
     }
 
     public function callback()
@@ -23,10 +28,17 @@ class SocialiteController extends Controller
         try {
             $user_from_google = Socialite::driver('google')->user();
         } catch (\Exception $e) {
-            return redirect()->route('index')->with('error', 'Autenticated failed');
+            Log::error("Google OAuth Error", [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'request' => request()->all(),
+                'session' => session()->all(),
+            ]);
+            return redirect()->route('index')->with('error', 'Authentication failed');
         }
-
+        
         if (!$user_from_google || !$user_from_google->getEmail()) {
+            Log::error("User: ", ['User_google' => $user_from_google]);
             return redirect()->route('index')->with('error', 'Invalid user');
         }
 
@@ -38,14 +50,16 @@ class SocialiteController extends Controller
             ]
         );
 
-        $session = Session::where('user_id', $user_from_db->id)->latest('last_activity')->first();
+        $user_session = UserSession::where('user_id', $user_from_db->id)->latest()->first();
 
-        if (!$session) {
-            $session = Session::create([
-                'id' => Str::uuid(),
+        if (!$user_session) {
+            Log::info('User session not found for user: ' . $user_from_db->id . ' Create new user');
+            $user_session = UserSession::create([
+                'session_uuid' => Str::uuid()->toString(),
                 'user_id' => $user_from_db->id,
                 'last_activity' => time()
             ]);
+            Log::info('User session id from callback: ' . $user_session);
         }
 
         auth('web')->login($user_from_db);
@@ -55,11 +69,12 @@ class SocialiteController extends Controller
 
         session([
             'access_token' => $access_token,
-            'session_id' => $session->id,
+            'session_uuid' => $user_session->session_uuid,
             'user_id' => $user_from_db->id
         ]);
 
-        return redirect()->route('chat', ['session_id' => $session->id]);
+        Log::info('Redirecting to chat with user_session_id: ' . $user_session->id);
+        return redirect()->route('chat', ['session_uuid' => $user_session->session_uuid]);
     }
 
     public function logout(Request $request) 

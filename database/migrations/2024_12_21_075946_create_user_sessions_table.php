@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('user_sessions', function (Blueprint $table) {
             $table->id();
-            $table->uuid('session_id');
-            $table->foreign('session_id')->references('id')->on('sessions')->onDelete('cascade');
-            $table->json('message_history')->nullable();
+            $table->uuid('session_uuid');
+            $table->foreignId('user_id')->nullable()->constrained(table: 'users')->onDelete('cascade');
+            $table->integer('last_activity')->index();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('user_sessions');
     }
 };

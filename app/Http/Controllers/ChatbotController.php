@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
-use App\Models\Session;
+use App\Models\UserSession;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -11,26 +11,31 @@ use Illuminate\Support\Facades\Http;
 
 class ChatbotController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return view('index');
     }
 
-    public function chat(Request $request, ?string $session_id = null)
+    public function chat(Request $request, string $session_uuid)
     {   
         $user_id = $request->session()->get('user_id');
+        $session_uuid = $request->session()->get('session_uuid');
 
-        if (!$session_id) {
-            return redirect()->route('index')->with('error', 'Session id is required.');
-        }
-
-        $session = Session::where('id', $session_id)->where('user_id', $user_id)->first();
+        Log::info('Session uuid from chat: ' . $session_uuid);
         
-        if (!$session) {
-            return redirect()->route('index')->with('error', 'Invalid session.');
+        if (!$session_uuid) {
+            return redirect()->route('google.logout')->with('error', 'Session uuid is required.');
+        }
+        
+        $user_session = UserSession::where('session_uuid', $session_uuid)->where('user_id', $user_id)->first();
+        
+        Log::info('Session uuid from chat: ' . $user_session->session_uuid);
+        
+        if (!$user_session) {
+            return redirect()->route('index')->with('error', 'Invalid session from chat.');
         }
 
-        $messages = $session->messages()->where('id', '>=', 2)->get();
+        $messages = $user_session->messages()->where('id', '>=', 2)->get();
 
         return view('chat', ['messages' => $messages,]);
     }
@@ -39,19 +44,19 @@ class ChatbotController extends Controller
     {
         $user_id = $request->session()->get('user_id');
 
-        $session = Session::create([
-            'id' => Str::uuid(),
+        $user_session = UserSession::create([
+            'session_uuid' => Str::uuid()->toString(),
             'user_id' => $user_id,
             'last_activity' => time()
         ]);
 
-        if (!$session) {
-            return redirect()->route('index')->with('error', 'Invalid session.');
+        if (!$user_session) {
+            return redirect()->route('index')->with('error', 'Invalid session from new_chat.');
         }
 
-        $request->session()->put('session_id', $session->id);
+        $request->session()->put('session_uuid', $user_session->session_uuid);
 
-        return redirect()->route('chat', ['session_id' => $session->id]);
+        return redirect()->route('chat', ['session_uuid' => $user_session->session_uuid]);
     }
 
     public function store(Request $request)
@@ -59,17 +64,13 @@ class ChatbotController extends Controller
         $message = $request->input('message', '');
 
         $access_token = $request->session()->get('access_token');
-        $session_id = $request->session()->get('session_id');
-
-        $request->validate([
-            'message_history' => 'required|array'
-        ]);
+        $session_uuid = $request->session()->get('session_uuid');
 
         try {
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $access_token,
                 'Content-Type' => 'application/json'
-            ])->post('http://localhost:8001/chat/' . $session_id, [
+            ])->post('http://localhost:8001/chat/' . $session_uuid, [
                 'message' => $message
             ]);
         } catch (\Exception $e) {
@@ -80,8 +81,10 @@ class ChatbotController extends Controller
             return redirect()->route('google.logout')->with('error', 'Session expired, please log in again.');
         }
 
+        $user_session = UserSession::where('session_uuid', $session_uuid)->first();
+
         Message::create([
-            'session_id' => $session_id,
+            'user_session_id' => $user_session->id,
             'message_history' => [
                 ['role' => 'user', 'content' => $message],
                 ['role' => 'assistant', 'content' => $response->json('generation')]

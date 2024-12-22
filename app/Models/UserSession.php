@@ -4,16 +4,17 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Message;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Session extends Model
+class UserSession extends Model
 {
-    protected $table = 'sessions';
-    protected $fillable = ['user_id'];
+    protected $table = 'user_sessions';
+    protected $fillable = ['session_uuid', 'user_id', 'last_activity'];
     protected $with = 'messages';
-
+    
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -21,6 +22,6 @@ class Session extends Model
 
     public function messages(): HasMany
     {
-        return $this->hasMany(Message::class, 'session_id');
+        return $this->hasMany(Message::class, 'user_session_id');
     }
 }

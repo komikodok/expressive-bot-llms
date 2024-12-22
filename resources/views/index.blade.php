@@ -44,6 +44,9 @@
             <!-- Body -->
             <div class="h-5/6 w-full flex p-1 justify-center items-center overflow-hidden">
                 <div class="border-opacity-10 border-t-2 border-gray-400 shadow-md shadow-gray-400 rounded-2xl h-full w-full p-2">
+                    @if (session('error'))
+                        <h1 class="">{{ session('error') }}</h1>
+                    @endif
                     <!-- Ballon's Chat -->   
                     <div id="chatContainer" class="space-y-1 p-4 h-full overflow-y-scroll flex flex-col" style="scrollbar-width:thin;">
                         <!-- Assistant Message -->
@@ -51,17 +54,11 @@
                             <div class="border border-black w-14 h-14 flex rounded-full">
                                 <img src="" class="text-md m-auto" alt="Bot Profile">
                             </div>
-                            
-                            @auth
-                            <p class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">Halo {{ auth()->user()->name }}</p>
-                            @endauth
-
                             @guest
                             <p class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">Perkenalkan siapa dirimu, 
                                 <a href="{{ route('google.redirect') }}" class="text-blue-400 underline">login sekarang</a>
                             </p>
                             @endguest
-
                         </div>
                     </div>
                 </div>

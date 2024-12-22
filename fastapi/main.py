@@ -35,10 +35,10 @@ app.add_middleware(
     secret_key=SECRET_KEY
 )
 
-@app.post('/chat/{session_id}', dependencies=[Depends(verify_token)])
+@app.post('/chat/{session_uuid}', dependencies=[Depends(verify_token)])
 async def response_items(
     data: RequestSchema,
-    session_id: str = Path(),
+    session_uuid: str = Path(),
     payload = Depends(verify_token)
     ) -> ResponseSchema:
 
@@ -46,7 +46,7 @@ async def response_items(
     
     payload_dict = payload.dict()
     user_name = payload_dict.get("sub", " ")
-    message_history = get_message_history(user_name=user_name, session_id=session_id)
+    message_history = get_message_history(user_name=user_name, session_uuid=session_uuid)
     message_history = message_history if len(message_history) > 0 else None
 
     try:
