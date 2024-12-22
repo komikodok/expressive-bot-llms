@@ -5,13 +5,29 @@
 @section('content')
     <!-- Container -->
     <div class="flex h-screen overflow-hidden fade-in-animation">
+        @if (session('error'))
+            <!-- Overlay -->
+            <div id="errorOverlay" class="fixed inset-0 bg-white bg-opacity-70 z-40"></div>
+            <!-- Error Message -->
+            <div id="errorBox" class="fixed inset-0 flex items-center justify-center z-50">
+                <div class="bg-red-600 px-6 py-4 rounded relative shadow-sm shadow-red-600">
+                    <button id="closeError" class="absolute -top-6 -right-4 text-3xl font-bold text-red-800">
+                        &times;
+                    </button>
+                    <span class="text-slate-200">{{ session('error') }}</span>
+                </div>
+            </div>
+        @endif
         <!-- Side Bar -->
         <div id="sideBar" class="w-96 h-full max-md:absolute max-md:w-64 max-md:-translate-x-full max-md:transition-all max-md:duration-300 rounded-md overflow-hidden">
             <!-- Header -->
             <header class="bg-slate-100 w-full h-14 flex justify-between items-center rounded-lg p-3 mb-1 shadow-md shadow-gray-300">
-                <a href="" class="w-20 text-center border-2 border-slate-100 ring-2 ring-red-800 bg-red-800 rounded-lg">
-                    <span class="text-sm text-slate-200 font-semibold my-auto">New chat</span>
-                </a>
+                <form method="POST" action="{{ route('new.chat') }}" class="inline-block">
+                    @csrf
+                    <button type="submit" class="w-20 text-center border-2 border-slate-100 ring-2 ring-red-800 bg-red-800 rounded-lg">
+                        <span class="text-sm text-slate-200 font-semibold my-auto">New chat</span>
+                    </button>
+                </form>
                 <form method="POST" action="{{ route('google.logout') }}" class="inline-block">
                     @csrf
                     <button type="submit" class="w-20 text-center border-2 border-slate-100 ring-2 ring-red-800 bg-red-800 rounded-lg">

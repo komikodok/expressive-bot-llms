@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use App\Models\UserSession;
+use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -13,10 +14,6 @@ class ChatbotController extends Controller
 {
     public function index(Request $request)
     {
-        // if (session()->has('access_token') && session()->has('session_uuid')) {
-        //     return redirect('/' . session('session_uuid'));
-        // } UBAH AGAR SESSION_UUID TIDAK KETERGANTUNGAN TERHADAP SESI
-
         return view('index');
     }
 
@@ -30,12 +27,13 @@ class ChatbotController extends Controller
             return redirect()->route('google.logout')->with('error', 'Session uuid is required.');
         }
         
-        $user_session = UserSession::where('session_uuid', $session_uuid)->where('user_id', $user_id)->first();
-        
-        Log::info('Session uuid from chat: ' . $user_session->session_uuid);
-        
-        if (!$user_session) {
-            return redirect()->route('index')->with('error', 'Invalid session from chat.');
+        try {
+            $user_session = UserSession::where('session_uuid', $session_uuid)
+                ->where('user_id', $user_id)
+                ->firstOrFail();
+        } catch (Exception $e) {
+            Log::info('Exception: ' . $e);
+            return redirect()->route('index')->with('error', 'Session UUID not found.');
         }
 
         $messages = $user_session->messages()->where('id', '>=', 2)->get();

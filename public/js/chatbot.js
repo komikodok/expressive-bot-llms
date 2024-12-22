@@ -65,3 +65,11 @@ document.querySelector('#chatForm').addEventListener('submit', async function (e
     }
     
 });
+
+document.getElementById('closeError').addEventListener('click', function() {
+    const overlay = document.getElementById('errorOverlay');
+    const errorBox = document.getElementById('errorBox');
+    
+    if (overlay) overlay.style.display = 'none';
+    if (errorBox) errorBox.style.display = 'none';
+});
