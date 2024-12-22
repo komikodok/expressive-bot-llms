@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\SocialiteController;
 
+Route::get('/', [ChatbotController::class, 'index'])->name('index');
 Route::post('/', [ChatbotController::class, 'store'])->name('index.post');
 
 Route::middleware('auth')->group(function () {
@@ -13,7 +14,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('guest')->group(function () {
-    Route::get('/', [ChatbotController::class, 'index'])->name('index');
     Route::get('/auth/google/redirect', [SocialiteController::class, 'redirect'])->name('google.redirect');
     Route::get('/auth/google/callback', [SocialiteController::class, 'callback'])->name('google.callback');
 });

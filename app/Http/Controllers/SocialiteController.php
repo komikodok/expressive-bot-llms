@@ -69,7 +69,6 @@ class SocialiteController extends Controller
 
         session([
             'access_token' => $access_token,
-            'session_uuid' => $user_session->session_uuid,
             'user_id' => $user_from_db->id
         ]);
 

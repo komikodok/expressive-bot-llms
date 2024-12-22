@@ -13,13 +13,16 @@ class ChatbotController extends Controller
 {
     public function index(Request $request)
     {
+        // if (session()->has('access_token') && session()->has('session_uuid')) {
+        //     return redirect('/' . session('session_uuid'));
+        // } UBAH AGAR SESSION_UUID TIDAK KETERGANTUNGAN TERHADAP SESI
+
         return view('index');
     }
 
     public function chat(Request $request, string $session_uuid)
     {   
         $user_id = $request->session()->get('user_id');
-        $session_uuid = $request->session()->get('session_uuid');
 
         Log::info('Session uuid from chat: ' . $session_uuid);
         
@@ -37,7 +40,7 @@ class ChatbotController extends Controller
 
         $messages = $user_session->messages()->where('id', '>=', 2)->get();
 
-        return view('chat', ['messages' => $messages,]);
+        return view('chat', ['messages' => $messages]);
     }
 
     public function new_chat(Request $request)
@@ -53,8 +56,6 @@ class ChatbotController extends Controller
         if (!$user_session) {
             return redirect()->route('index')->with('error', 'Invalid session from new_chat.');
         }
-
-        $request->session()->put('session_uuid', $user_session->session_uuid);
 
         return redirect()->route('chat', ['session_uuid' => $user_session->session_uuid]);
     }
