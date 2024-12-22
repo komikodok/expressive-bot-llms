@@ -8,7 +8,10 @@
         <!-- Side Bar -->
         <div id="sideBar" class="w-96 h-full max-md:absolute max-md:w-64 max-md:-translate-x-full max-md:transition-all max-md:duration-300 rounded-md overflow-hidden">
             <!-- Header -->
-            <header class="bg-slate-100 w-full h-14 flex justify-end items-center rounded-lg p-3 mb-1 shadow-md shadow-gray-300">
+            <header class="bg-slate-100 w-full h-14 flex justify-between items-center rounded-lg p-3 mb-1 shadow-md shadow-gray-300">
+                <a href="" class="w-20 text-center border-2 border-slate-100 ring-2 ring-red-800 bg-red-800 rounded-lg">
+                    <span class="text-sm text-slate-200 font-semibold my-auto">New chat</span>
+                </a>
                 <form method="POST" action="{{ route('google.logout') }}" class="inline-block">
                     @csrf
                     <button type="submit" class="w-20 text-center border-2 border-slate-100 ring-2 ring-red-800 bg-red-800 rounded-lg">
@@ -17,7 +20,9 @@
                 </form>
             </header>
             <!-- Body -->
-            <div class="border-x border-gray-300 bg-slate-100 rounded-lg w-full h-full"></div>
+            <div class="border-x border-gray-300 bg-slate-100 rounded-lg w-full h-full p-2.5">
+                <a href="" class="m-2 text-sm w-20 text-slate-200 bg-red-800 rounded-md">aaaaaaaaaaaaaaaaa</a>
+            </div>
         </div>
         <!-- Chatbot -->
         <div id="chatBot" class="w-full h-full md:px-3 lg:px-5 max-md:px-2">
