@@ -73,7 +73,7 @@ class SocialiteController extends Controller
             'user_id' => $user_from_db->id
         ]);
 
-        Log::info('Redirecting to chat with user_session_id: ' . $user_session->id);
+        Log::info('Redirecting to chat with user_session_id: ' . $user_session->session_uuid);
         return redirect()->route('chat', ['session_uuid' => $user_session->session_uuid]);
     }
 

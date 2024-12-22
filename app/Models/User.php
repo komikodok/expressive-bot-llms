@@ -44,7 +44,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function sessions(): HasMany
+    public function user_sessions(): HasMany
     {
         return $this->hasMany(UserSession::class, 'user_id');
     }
