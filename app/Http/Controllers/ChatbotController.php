@@ -36,9 +36,14 @@ class ChatbotController extends Controller
             return redirect()->route('index')->with('error', 'Session UUID not found.');
         }
 
+        $list_session_uuid = UserSession::where('user_id', $user_id)->latest()->pluck('session_uuid');
+        Log::info('List session uuid: ' . $list_session_uuid);
         $messages = $user_session->messages()->where('id', '>=', 2)->get();
 
-        return view('chat', ['messages' => $messages]);
+        return view('chat', [
+            'messages' => $messages,
+            'list_session_uuid' => $list_session_uuid
+        ]);
     }
 
     public function new_chat(Request $request)

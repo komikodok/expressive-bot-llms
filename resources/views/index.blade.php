@@ -11,11 +11,11 @@
         
             <!-- Error Message -->
             <div id="errorBox" class="fixed inset-0 flex items-center justify-center z-50">
-                <div class="bg-red-600 text-slate-200 px-6 py-4 rounded relative shadow-sm shadow-red-600">
+                <div class="bg-red-600 px-6 py-2 rounded relative flex max-h-32 max-w-[80%] shadow-sm shadow-red-600">
                     <button id="closeError" class="absolute -top-6 -right-4 text-3xl font-bold text-red-800">
                         &times;
                     </button>
-                    {{ session('error') }}
+                    <span class="text-slate-200 m-auto break-all break-words">{{ session('error') }}</span>
                 </div>
             </div>
         @endif
