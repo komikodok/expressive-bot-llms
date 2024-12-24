@@ -47,9 +47,6 @@ async def response_items(
     message_history = get_message_history(user_name=user_name, session_uuid=session_uuid, db=db)
     message_history = list(np.concatenate(message_history)) if len(message_history) > 0 else []
 
-    logger.info(f"Message history: {message_history}")
-    logger.info(f"Message history: {type(message_history)}")
-
     try:
         result = await llm_app.ainvoke({"user_input": data.message, "username": user_name, "message_history": message_history})
         logger.info(f"Response Bot: {result}")
