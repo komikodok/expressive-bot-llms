@@ -37,18 +37,27 @@
                 </form>
             </header>
             <!-- Body -->
-            <div class="border-x border-gray-300 bg-slate-100 rounded-lg w-full h-full p-2.5 overflow-y-auto max-h-[90%]">
-                @foreach ($list_session_uuid as $session_uuid)
-                    <div class="bg-red-800 m-2 h-8">
-                        <a href="{{ route('chat', ['session_uuid' => $session_uuid]) }}" class="m-2 text-sm w-20 text-slate-200 rounded-md">
-                            {{ $session_uuid }}
+            <div class="border-x border-gray-300 bg-slate-100 rounded-lg grid grid-cols-1 py-2.5 w-full h-full overflow-y-scroll max-h-[90%]" style="scrollbar-width:thin;">
+                @foreach ($list_session as $session)
+                    <div class="bg-red-800 rounded-md justify-self-center w-[90%] h-6">
+                        <a href="{{ route('chat', ['session_uuid' => $session->session_uuid]) }}" class="m-2 text-sm w-20 text-slate-200 rounded-md">
+                            {{ $session->session_uuid }}
                         </a>
                     </div>
+                    @if (request()->route('session_uuid') == $session->session_uuid)
+                        <div class="flex bg-red-300 bg-gradient-to-b from-white shadow-md shadow-red-300 mb-2">
+                            <p class="ml-auto text-xs">{{ $session->updated_at->diffForHumans() }}</p>
+                        </div>
+                    @else
+                        <div class="flex border-b border-red-300 mb-2 opacity-40">
+                            <p class="ml-auto text-xs">{{ $session->updated_at->diffForHumans() }}</p>
+                        </div>
+                    @endif
                 @endforeach
             </div>
         </div>
         <!-- Chatbot -->
-        <div id="chatBot" class="w-full h-full md:px-3 lg:px-5 max-md:px-2">
+        <div id="chatBot" class="w-full h-[98%] md:px-3 lg:px-5 max-md:px-2">
             <!-- Header -->
             <header class="bg-red-900 flex w-full h-14 rounded-lg shadow-md shadow-gray-400">
                 <!-- Profile Assistant -->

@@ -50,7 +50,7 @@ class SocialiteController extends Controller
             ]
         );
 
-        $user_session = UserSession::where('user_id', $user_from_db->id)->latest()->first();
+        $user_session = UserSession::where('user_id', $user_from_db->id)->latest('last_activity')->first();
 
         if (!$user_session) {
             Log::info('User session not found for user: ' . $user_from_db->id . ' Create new user');

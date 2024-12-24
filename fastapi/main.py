@@ -1,13 +1,15 @@
 from fastapi import FastAPI, Depends, HTTPException, status, Path
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
+from sqlalchemy.orm import Session
 
-import logging
+import os
 from pydantic import ValidationError
 from llm.llm_app import LLMApp
+from log.logger import logger
 from service.verify_token import verify_token
 from service.get_message_history import get_message_history
-import os
+from database.database_client import get_db
 from schema import RequestSchema, ResponseSchema
 
 app = FastAPI()
@@ -15,13 +17,6 @@ app = FastAPI()
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 llm_app = LLMApp()
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[logging.StreamHandler(), logging.FileHandler('app.log')]
-)
-logger = logging.getLogger(__name__)
 
 app.add_middleware(
     CORSMiddleware,
@@ -39,14 +34,15 @@ app.add_middleware(
 async def response_items(
     data: RequestSchema,
     session_uuid: str = Path(),
-    payload = Depends(verify_token)
+    payload = Depends(verify_token),
+    db: Session = Depends(get_db),
     ) -> ResponseSchema:
 
     logger.info("Chat route called")
     
     payload_dict = payload.dict()
     user_name = payload_dict.get("sub", " ")
-    message_history = get_message_history(user_name=user_name, session_uuid=session_uuid)
+    message_history = get_message_history(user_name=user_name, session_uuid=session_uuid, db=db)
     message_history = message_history if len(message_history) > 0 else None
 
     try:

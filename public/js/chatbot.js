@@ -34,7 +34,7 @@ document.querySelector('#chatForm').addEventListener('submit', async function (e
             }
         });
         console.log(response.data);
-        appendMessage('assistant', response.data.generation);
+        appendMessage('assistant', `${response.data.generation} \n${response.data.mood}`);
     } catch (error) {
         console.log(error);
         appendMessage('assistant', `Something went wrong, Please try again. Error: ${error.message}`);

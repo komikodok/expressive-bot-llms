@@ -21,7 +21,6 @@ class ChatbotController extends Controller
     {   
         $user_id = $request->session()->get('user_id');
 
-        Log::info('Session uuid from chat: ' . $session_uuid);
         
         if (!$session_uuid) {
             return redirect()->route('google.logout')->with('error', 'Session uuid is required.');
@@ -31,18 +30,20 @@ class ChatbotController extends Controller
             $user_session = UserSession::where('session_uuid', $session_uuid)
                 ->where('user_id', $user_id)
                 ->firstOrFail();
-        } catch (Exception $e) {
-            Log::info('Exception: ' . $e);
-            return redirect()->route('index')->with('error', 'Session UUID not found.');
-        }
-
-        $list_session_uuid = UserSession::where('user_id', $user_id)->latest()->pluck('session_uuid');
-        Log::info('List session uuid: ' . $list_session_uuid);
+            } catch (Exception $e) {
+                Log::info('Exception: ' . $e);
+                return redirect()->route('index')->with('error', 'Session invalid.');
+            }
+            
+            $list_session = UserSession::where('user_id', $user_id)->latest()->get(['session_uuid', 'updated_at']);
         $messages = $user_session->messages()->where('id', '>=', 2)->get();
+        
+        session(['session_uuid' => $session_uuid]);
+        Log::info('Session uuid from chat: ' . $session_uuid);
 
         return view('chat', [
             'messages' => $messages,
-            'list_session_uuid' => $list_session_uuid
+            'list_session' => $list_session
         ]);
     }
 
@@ -60,7 +61,12 @@ class ChatbotController extends Controller
             return redirect()->route('index')->with('error', 'Invalid session from new_chat.');
         }
 
-        return redirect()->route('chat', ['session_uuid' => $user_session->session_uuid]);
+        $session_uuid = $user_session->session_uuid;
+
+        $request->session()->put('session_uuid', $session_uuid);
+        Log::info('Session uuid from new_chat: ' . $session_uuid);
+
+        return redirect()->route('chat', ['session_uuid' => $session_uuid]);
     }
 
     public function store(Request $request)
@@ -69,6 +75,7 @@ class ChatbotController extends Controller
 
         $access_token = $request->session()->get('access_token');
         $session_uuid = $request->session()->get('session_uuid');
+        Log::info('Session uuid from store: ' . $session_uuid);
 
         try {
             $response = Http::withHeaders([

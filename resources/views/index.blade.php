@@ -31,7 +31,7 @@
             <div class="border-x border-gray-300 bg-slate-100 rounded-lg w-full h-full"></div>
         </div>
         <!-- Chatbot -->
-        <div id="chatBot" class="w-full h-full md:px-3 lg:px-5 max-md:px-2">
+        <div id="chatBot" class="w-full h-[98%] md:px-3 lg:px-5 max-md:px-2">
             <!-- Header -->
             <header class="bg-red-900 flex w-full h-14 rounded-lg shadow-md shadow-gray-400">
                 <!-- Profile Assistant -->

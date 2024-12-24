@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, JSON
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, JSON
 from sqlalchemy.dialects.mysql import BIGINT
 from sqlalchemy.orm import relationship
 from database.database_client import Base
@@ -34,7 +34,7 @@ class Message(Base):
     __tablename__ = 'messages'
 
     id = Column(BIGINT, primary_key=True, index=True)
-    session_id = Column(String(36), ForeignKey('user_sessions.id'), nullable=False)
+    user_session_id = Column(String(36), ForeignKey('user_sessions.id'), nullable=False)
     message_history = Column(JSON, nullable=True)
 
-    session = relationship("UserSession", back_populates="messages")
+    user_session = relationship("UserSession", back_populates="messages")

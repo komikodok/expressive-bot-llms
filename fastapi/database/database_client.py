@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = "mysql+pymysql://root:password@localhost:3306/laravel11"
+DATABASE_URL = "mysql+pymysql://root:@localhost:3306/laravel11"
 
 engine = create_engine(DATABASE_URL)
 

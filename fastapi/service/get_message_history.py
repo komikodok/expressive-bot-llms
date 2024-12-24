@@ -12,7 +12,7 @@ def get_message_history(user_name: str, session_uuid: str, db: Session = Depends
             selectinload(User.user_sessions).selectinload(UserSession.messages)
         )
         .filter(User.name == user_name)
-        .join(User.sessions)
+        .join(User.user_sessions)
         .filter(UserSession.session_uuid == session_uuid)
         .first()
     )
@@ -26,6 +26,6 @@ def get_message_history(user_name: str, session_uuid: str, db: Session = Depends
         raise HTTPException(status_code=404, detail="Session uuid not found for this user")
 
     messages = user_session.messages
-    message_history = [message.get('message_history') for message in messages]
+    message_history = [message.message_history for message in messages]
 
     return message_history
