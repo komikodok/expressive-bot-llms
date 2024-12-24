@@ -8,7 +8,6 @@
         @if (session('error'))
             <!-- Overlay -->
             <div id="errorOverlay" class="fixed inset-0 bg-white bg-opacity-70 z-40"></div>
-        
             <!-- Error Message -->
             <div id="errorBox" class="fixed inset-0 flex items-center justify-center z-50">
                 <div class="bg-red-600 px-6 py-2 rounded relative flex max-h-32 max-w-[80%] shadow-sm shadow-red-600">
@@ -37,18 +36,23 @@
                 </form>
             </header>
             <!-- Body -->
-            <div class="border-x border-gray-300 bg-slate-100 rounded-lg grid grid-cols-1 py-2.5 w-full h-full overflow-y-scroll max-h-[90%]" style="scrollbar-width:thin;">
+            <div class="border-x border-gray-300 bg-slate-100 rounded-lg flex-col py-2.5 w-full h-full overflow-y-scroll max-h-[90%]" style="scrollbar-width:thin;">
                 @foreach ($list_session as $session)
-                    <div class="bg-red-800 rounded-md justify-self-center w-[90%] h-6">
-                        <a href="{{ route('chat', ['session_uuid' => $session->session_uuid]) }}" class="m-2 text-sm w-20 text-slate-200 rounded-md">
-                            {{ $session->session_uuid }}
-                        </a>
-                    </div>
                     @if (request()->route('session_uuid') == $session->session_uuid)
-                        <div class="flex bg-red-300 bg-gradient-to-b from-white shadow-md shadow-red-300 mb-2">
+                        <div class="bg-red-800 rounded-md m-auto w-[90%] h-6">
+                            <a href="{{ route('chat', ['session_uuid' => $session->session_uuid]) }}" class="m-2 text-sm w-20 text-slate-200 rounded-md">
+                                {{ $session->session_uuid }}
+                            </a>
+                        </div>
+                        <div class="flex border-b border-red-300 shadow-sm shadow-red-400 mb-2">
                             <p class="ml-auto text-xs">{{ $session->updated_at->diffForHumans() }}</p>
                         </div>
                     @else
+                        <div class="bg-red-600 rounded-md m-auto w-[90%] h-6">
+                            <a href="{{ route('chat', ['session_uuid' => $session->session_uuid]) }}" class="m-2 text-sm w-20 text-slate-200 rounded-md">
+                                {{ $session->session_uuid }}
+                            </a>
+                        </div>
                         <div class="flex border-b border-red-300 mb-2 opacity-40">
                             <p class="ml-auto text-xs">{{ $session->updated_at->diffForHumans() }}</p>
                         </div>

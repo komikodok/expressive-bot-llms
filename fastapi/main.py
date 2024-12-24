@@ -4,6 +4,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from sqlalchemy.orm import Session
 
 import os
+import numpy as np
 from pydantic import ValidationError
 from llm.llm_app import LLMApp
 from log.logger import logger
@@ -42,8 +43,12 @@ async def response_items(
     
     payload_dict = payload.dict()
     user_name = payload_dict.get("sub", " ")
+
     message_history = get_message_history(user_name=user_name, session_uuid=session_uuid, db=db)
-    message_history = message_history if len(message_history) > 0 else None
+    message_history = list(np.concatenate(message_history)) if len(message_history) > 0 else []
+
+    logger.info(f"Message history: {message_history}")
+    logger.info(f"Message history: {type(message_history)}")
 
     try:
         result = await llm_app.ainvoke({"user_input": data.message, "username": user_name, "message_history": message_history})

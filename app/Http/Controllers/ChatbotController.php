@@ -30,12 +30,12 @@ class ChatbotController extends Controller
             $user_session = UserSession::where('session_uuid', $session_uuid)
                 ->where('user_id', $user_id)
                 ->firstOrFail();
-            } catch (Exception $e) {
-                Log::info('Exception: ' . $e);
-                return redirect()->route('index')->with('error', 'Session invalid.');
-            }
-            
-            $list_session = UserSession::where('user_id', $user_id)->latest()->get(['session_uuid', 'updated_at']);
+        } catch (Exception $e) {
+            Log::info('Exception: ' . $e);
+            return redirect()->route('index')->with('error', 'Session invalid.');
+        }
+        
+        $list_session = UserSession::where('user_id', $user_id)->latest()->get(['session_uuid', 'updated_at']);
         $messages = $user_session->messages()->where('id', '>=', 2)->get();
         
         session(['session_uuid' => $session_uuid]);
@@ -91,6 +91,8 @@ class ChatbotController extends Controller
         if ($response->status() == 401) {
             return redirect()->route('google.logout')->with('error', 'Session expired, please log in again.');
         }
+
+        Log::info('Generation: ', $response->json());
 
         $user_session = UserSession::where('session_uuid', $session_uuid)->first();
 

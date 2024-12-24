@@ -8,7 +8,6 @@
         @if (session('error'))
             <!-- Overlay -->
             <div id="errorOverlay" class="fixed inset-0 bg-white bg-opacity-70 z-40"></div>
-        
             <!-- Error Message -->
             <div id="errorBox" class="fixed inset-0 flex items-center justify-center z-50">
                 <div class="bg-red-600 px-6 py-2 rounded relative flex max-h-32 max-w-[80%] shadow-sm shadow-red-600">
