@@ -36,5 +36,6 @@ class Message(Base):
     id = Column(BIGINT, primary_key=True, index=True)
     user_session_id = Column(String(36), ForeignKey('user_sessions.id'), nullable=False)
     message_history = Column(JSON, nullable=True)
+    assistant_mood = Column(String(10), nullable=True)
 
     user_session = relationship("UserSession", back_populates="messages")

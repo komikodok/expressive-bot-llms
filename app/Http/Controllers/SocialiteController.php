@@ -82,7 +82,7 @@ class SocialiteController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         
-        return redirect()->route('index');
+        return redirect()->route('index')->with('error', session('error'));
     }
 
     public function generate_token($user, $minutes)

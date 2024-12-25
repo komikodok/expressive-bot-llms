@@ -38,7 +38,8 @@ class ChatbotController extends Controller
         $list_session = UserSession::where('user_id', $user_id)->latest()->get(['session_uuid', 'updated_at']);
         $messages = $user_session->messages()->where('id', '>=', 2)->get();
         
-        session(['session_uuid' => $session_uuid]);
+        $request->session()->put('session_uuid', $session_uuid);
+
         Log::info('Session uuid from chat: ' . $session_uuid);
 
         return view('chat', [
@@ -92,7 +93,7 @@ class ChatbotController extends Controller
             return redirect()->route('google.logout')->with('error', 'Session expired, please log in again.');
         }
 
-        Log::info('Generation: ', $response->json());
+        Log::info('Response body: ', $response->json());
 
         $user_session = UserSession::where('session_uuid', $session_uuid)->first();
 
@@ -101,7 +102,8 @@ class ChatbotController extends Controller
             'message_history' => [
                 ['role' => 'user', 'content' => $message],
                 ['role' => 'assistant', 'content' => $response->json('generation')]
-            ]
+            ],
+            'assistant_mood' => $response->json('mood')
         ]);
 
         return response()->json([

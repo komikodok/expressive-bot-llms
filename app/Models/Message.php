@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Message extends Model
 {
     protected $table = 'messages';
-    protected $fillable = ['user_session_id', 'message_history'];
+    protected $fillable = ['user_session_id', 'message_history', 'assistant_mood'];
     protected $casts = ['message_history' => 'array'];
 
     public function session(): BelongsTo

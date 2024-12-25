@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_session_id')->nullable()->constrained(table: 'user_sessions')->onDelete('cascade');
             $table->json('message_history')->nullable();
+            $table->string('assistant_mood')->nullable();
             $table->timestamps();
         });
     }
