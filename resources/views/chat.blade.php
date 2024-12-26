@@ -44,7 +44,7 @@
                                 {{ $session->session_uuid }}
                             </a>
                         </div>
-                        <div class="flex border-b border-red-300 shadow-sm shadow-red-400 mb-2">
+                        <div class="flex border-b border-red-300 mb-2">
                             <p class="ml-auto text-xs">{{ $session->updated_at->diffForHumans() }}</p>
                         </div>
                     @else
@@ -90,6 +90,24 @@
                             </div>
                             <p class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">Halo {{ auth()->user()->name }}</p>
                         </div>
+                        @foreach ($messages as $message)
+                            @php
+                                $user_message = $message->message_history[0]['content'];
+                                $assistant_message = $message->message_history[1]['content'];
+                            @endphp
+                            <div class="justify-end p-3 flex">
+                                <p class="bg-gray-200 text-slate-950 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">{{ $user_message }}</p>
+                                <div class="border border-black w-14 h-14 flex rounded-full">
+                                    <img src="" class="text-md m-auto" alt="User Profile">
+                                </div>
+                            </div>
+                            <div class="justify-start p-3 flex">
+                                <div class="border border-black w-14 h-14 flex rounded-full">
+                                    <img src="" class="text-md m-auto" alt="Bot Profile">
+                                </div>
+                                <p class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">{{ $assistant_message }} {{ $message->assistant_mood }}</p>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

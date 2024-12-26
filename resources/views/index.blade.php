@@ -65,13 +65,15 @@
                 </div>
             </div>
             <!-- Chat Form -->
-            <form id="chatForm" class="flex mt-0.5 justify-center items-center h-12 w-full overflow-hidden" action="{{ route('index.post') }}" method="POST">
-                @csrf
-                <input id="messageInput" class="w-full h-full text-start rounded-xl p-2 border-2 border-red-200 focus:outline-red-500" type="text" name="message" placeholder="Message Assistant...">
-                <button id="sendButton" class="disabled:opacity-50 disabled:cursor-not-allowed ml-2 flex items-center justify-center text-slate-200 font-semibold rounded-lg bg-red-800 w-16 h-full focus:outline-1 focus:outline-red-900 transition-all duration-300" type="submit" disabled>
-                    <span id="sendIcon" class="text-2xl m-auto">↑</span>
-                </button>
-            </form>
+            @auth
+                <form id="chatForm" class="flex mt-0.5 justify-center items-center h-12 w-full overflow-hidden" action="{{ route('index.post') }}" method="POST">
+                    @csrf
+                    <input id="messageInput" class="w-full h-full text-start rounded-xl p-2 border-2 border-red-200 focus:outline-red-500" type="text" name="message" placeholder="Message Assistant...">
+                    <button id="sendButton" class="disabled:opacity-50 disabled:cursor-not-allowed ml-2 flex items-center justify-center text-slate-200 font-semibold rounded-lg bg-red-800 w-16 h-full focus:outline-1 focus:outline-red-900 transition-all duration-300" type="submit" disabled>
+                        <span id="sendIcon" class="text-2xl m-auto">↑</span>
+                    </button>
+                </form>
+            @endauth
         </div>
     </div>
 

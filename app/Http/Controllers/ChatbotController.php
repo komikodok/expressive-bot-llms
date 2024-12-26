@@ -21,7 +21,6 @@ class ChatbotController extends Controller
     {   
         $user_id = $request->session()->get('user_id');
 
-        
         if (!$session_uuid) {
             return redirect()->route('google.logout')->with('error', 'Session uuid is required.');
         }
@@ -36,7 +35,7 @@ class ChatbotController extends Controller
         }
         
         $list_session = UserSession::where('user_id', $user_id)->latest()->get(['session_uuid', 'updated_at']);
-        $messages = $user_session->messages()->where('id', '>=', 2)->get();
+        $messages = $user_session->messages()->where('id', '>=', 2)->get(['message_history', 'assistant_mood']);
         
         $request->session()->put('session_uuid', $session_uuid);
 
