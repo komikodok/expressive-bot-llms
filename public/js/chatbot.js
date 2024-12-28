@@ -34,13 +34,13 @@ document.querySelector('#chatForm').addEventListener('submit', async function (e
             }
         });
         console.log(response.data);
-        appendMessage('assistant', `${response.data.generation} \n${response.data.mood}`);
+        appendMessage('assistant', response.data.generation, response.data.mood);
     } catch (error) {
         console.log(error);
         appendMessage('assistant', `Something went wrong, Please try again. Error: ${error.message}`);
     }
     
-    function appendMessage(sender, message) {
+    function appendMessage(sender, message, assistant_mood = null) {
         const messageElement = document.createElement('div');
         const senderClass = sender === 'user' ? 'self-end justify-end' : 'self-start justify-start'
         
@@ -48,14 +48,22 @@ document.querySelector('#chatForm').addEventListener('submit', async function (e
         
         if (sender === 'user') {
             messageElement.innerHTML += `
-                    <div class="bg-gray-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">${message}</div>
-                    <div class="border border-black w-14 h-14 rounded-full"></div>
-                    `
+                            <div class="justify-end p-3 flex">
+                                <p class="bg-gray-200 text-slate-950 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">${message}</p>
+                                <div class="border border-black w-14 h-14 flex rounded-full">
+                                    <img src="" class="text-md m-auto" alt="User Profile">
+                                </div>
+                            </div>
+            `
         } else {
             messageElement.innerHTML += `
-                    <div class="border border-black w-14 h-14 rounded-full"></div>
-                    <div class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">${message}</div>
-                    `
+                            <div class="justify-start p-3 flex">
+                                <div class="w-14 h-14 flex rounded-full">
+                                    <img src="images/${assistant_mood}.png" class="text-md m-auto" alt="Bot Profile">
+                                </div>
+                                <p class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">${message}</p>
+                            </div>
+            `
         }
         chatContainer.appendChild(messageElement)
         chatContainer.scrollTop = chatContainer.scrollHeight

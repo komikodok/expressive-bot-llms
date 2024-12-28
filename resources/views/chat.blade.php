@@ -85,8 +85,8 @@
                     <div id="chatContainer" class="space-y-1 p-4 h-full overflow-y-scroll flex flex-col" style="scrollbar-width:thin;">
                         <!-- Assistant Message -->
                         <div class="justify-start p-3 flex">
-                            <div class="border border-black w-14 h-14 flex rounded-full">
-                                <img src="" class="text-md m-auto" alt="Bot Profile">
+                            <div class="w-14 h-14 flex rounded-full">
+                                <img src="{{ asset('images/profile.jpg') }}" class="text-md m-auto" alt="Bot Profile">
                             </div>
                             <p class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">Halo {{ auth()->user()->name }}</p>
                         </div>
@@ -94,6 +94,7 @@
                             @php
                                 $user_message = $message->message_history[0]['content'];
                                 $assistant_message = $message->message_history[1]['content'];
+                                $assistant_mood = $message->assistant_mood;
                             @endphp
                             <div class="justify-end p-3 flex">
                                 <p class="bg-gray-200 text-slate-950 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">{{ $user_message }}</p>
@@ -102,10 +103,10 @@
                                 </div>
                             </div>
                             <div class="justify-start p-3 flex">
-                                <div class="border border-black w-14 h-14 flex rounded-full">
-                                    <img src="" class="text-md m-auto" alt="Bot Profile">
+                                <div class="w-14 h-14 flex rounded-full">
+                                    <img src="{{ asset('images/' . $assistant_mood . '.png') }}" class="text-md m-auto" alt="Bot Profile">
                                 </div>
-                                <p class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">{{ $assistant_message }} {{ $message->assistant_mood }}</p>
+                                <p class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">{{ $assistant_message }}</p>
                             </div>
                         @endforeach
                     </div>
