@@ -10,8 +10,8 @@
             <div id="errorOverlay" class="fixed inset-0 bg-white bg-opacity-70 z-40"></div>
             <!-- Error Message -->
             <div id="errorBox" class="fixed inset-0 flex items-center justify-center z-50">
-                <div class="bg-red-600 px-6 py-2 rounded relative flex max-h-32 max-w-[80%] shadow-sm shadow-red-600">
-                    <button id="closeError" class="absolute -top-6 -right-4 text-3xl font-bold text-red-800">
+                <div class="bg-slate-600 px-6 py-2 rounded relative flex max-h-32 max-w-[80%] shadow-sm shadow-slate-600">
+                    <button id="closeError" class="absolute -top-6 -right-4 text-3xl font-bold text-slate-800">
                         &times;
                     </button>
                     <span class="text-slate-200 m-auto break-all break-words">{{ session('error') }}</span>
@@ -22,7 +22,7 @@
         <div id="sideBar" class="w-96 h-full max-md:absolute max-md:w-64 max-md:-translate-x-full max-md:transition-all max-md:duration-300 rounded-md overflow-hidden">
             <!-- Header -->
             <header class="bg-slate-100 w-full h-14 flex justify-end items-center rounded-lg p-3 mb-1 shadow-md shadow-gray-300">
-                <a href="{{ route('google.redirect') }}" class="w-20 text-center border-2 border-slate-100 ring-2 ring-red-800 bg-red-800 rounded-lg">
+                <a href="{{ route('google.redirect') }}" class="w-20 text-center border-2 border-slate-100 ring-2 ring-slate-800 bg-slate-800 rounded-lg">
                     <span class="text-sm text-slate-200 font-semibold my-auto">Login</span>
                 </a>
             </header>
@@ -32,7 +32,7 @@
         <!-- Chatbot -->
         <div id="chatBot" class="w-full h-[98%] md:px-3 lg:px-5 max-md:px-2">
             <!-- Header -->
-            <header class="bg-red-900 flex w-full h-14 rounded-lg shadow-md shadow-gray-400">
+            <header class="bg-slate-900 flex w-full h-14 rounded-lg shadow-md shadow-gray-400">
                 <!-- Profile Assistant -->
                 <div class="flex ml-5 ">
                     <div class="border border-black rounded-full w-10 h-10 my-auto">
@@ -57,7 +57,7 @@
                             <div class="border border-black w-14 h-14 flex rounded-full">
                                 <img src="" class="text-md m-auto" alt="Bot Profile">
                             </div>
-                            <p class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">Perkenalkan siapa dirimu, 
+                            <p class="bg-slate-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">Perkenalkan siapa dirimu, 
                                 <a href="{{ route('google.redirect') }}" class="text-blue-400 underline">login sekarang</a>
                             </p>
                         </div>
@@ -65,15 +65,13 @@
                 </div>
             </div>
             <!-- Chat Form -->
-            @auth
-                <form id="chatForm" class="flex mt-0.5 justify-center items-center h-12 w-full overflow-hidden" action="{{ route('index.post') }}" method="POST">
-                    @csrf
-                    <input id="messageInput" class="w-full h-full text-start rounded-xl p-2 border-2 border-red-200 focus:outline-red-500" type="text" name="message" placeholder="Message Assistant...">
-                    <button id="sendButton" class="disabled:opacity-50 disabled:cursor-not-allowed ml-2 flex items-center justify-center text-slate-200 font-semibold rounded-lg bg-red-800 w-16 h-full focus:outline-1 focus:outline-red-900 transition-all duration-300" type="submit" disabled>
-                        <span id="sendIcon" class="text-2xl m-auto">↑</span>
-                    </button>
-                </form>
-            @endauth
+            <form id="chatForm" class="flex mt-0.5 justify-center items-center h-12 w-full overflow-hidden" action="{{ route('index.post') }}" method="POST">
+                @csrf
+                <input id="messageInput" class="w-full h-full text-start rounded-xl p-2 border-2 border-slate-200 focus:outline-slate-500" type="text" name="message" placeholder="Message Assistant...">
+                <button id="sendButton" class="disabled:opacity-50 disabled:cursor-not-allowed ml-2 flex items-center justify-center text-slate-200 font-semibold rounded-lg bg-slate-800 w-16 h-full focus:outline-1 focus:outline-slate-900 transition-all duration-300" type="submit" disabled>
+                    <span id="sendIcon" class="text-2xl m-auto">↑</span>
+                </button>
+            </form>
         </div>
     </div>
 

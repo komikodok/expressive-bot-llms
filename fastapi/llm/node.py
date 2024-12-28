@@ -41,7 +41,6 @@ def generation_node(state: State):
             {"role": "tool", "tool_call_id": "first-conversation", "content": ""}
         ]
 
-
     result = chain.invoke({"user_input": user_input, "chat_history": message_history, "username": username})
     generation = result.generation
     mood = result.mood

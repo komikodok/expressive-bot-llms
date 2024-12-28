@@ -11,7 +11,34 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 
 class ChatbotController extends Controller
-{
+{   
+    private $first_conversation;
+    
+    public function __construct()
+    {   
+        $this->first_conversation = [
+            ["role" => "user", "content" => "Halo"],
+            [
+                "role" => "assistant", 
+                "content" => "",
+                "tool_calls" => [
+                    [
+                        "type" => "function",
+                        "id" => "first-conversation",
+                        "function" => [
+                            "name" => "response",
+                            "arguments" => [
+                                "generation" => "Halo juga",
+                                "mood" => "normal"
+                            ],
+                        ]
+                    ]
+                ]
+            ],
+            ["role" => "tool", "tool_call_id" => "first-conversation", "content" => ""]
+        ];
+    }
+
     public function index(Request $request)
     {
         return view('index');
@@ -35,11 +62,20 @@ class ChatbotController extends Controller
         }
         
         $list_session = UserSession::where('user_id', $user_id)->latest()->get(['session_uuid', 'updated_at']);
-        $messages = $user_session->messages()->where('id', '>=', 2)->get(['message_history', 'assistant_mood']);
+        $messages = $user_session->messages()->offset(2)->limit(PHP_INT_MAX)->get(['message_history', 'assistant_mood']);
+
+        if (count($messages) == 0) {
+            Message::create([
+                'user_session_id' => $user_session->id,
+                'message_history' => $this->first_conversation,
+                'assistant_mood' => 'normal'
+            ]);
+    
+        };
         
         $request->session()->put('session_uuid', $session_uuid);
 
-        Log::info('Session uuid from chat: ' . $session_uuid);
+        Log::info('Messages from chat: ' . $messages);
 
         return view('chat', [
             'messages' => $messages,

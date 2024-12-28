@@ -61,7 +61,7 @@ document.querySelector('#chatForm').addEventListener('submit', async function (e
                                 <div class="w-14 h-14 flex rounded-full">
                                     <img src="images/${assistant_mood}.png" class="text-md m-auto" alt="Bot Profile">
                                 </div>
-                                <p class="bg-red-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">${message}</p>
+                                <p class="bg-slate-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">${message}</p>
                             </div>
             `
         }
