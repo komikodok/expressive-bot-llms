@@ -30,7 +30,7 @@ class ChatbotController extends Controller
                             "arguments" => [
                                 "generation" => "Halo juga",
                                 "mood" => "normal"
-                            ],
+                            ]
                         ]
                     ]
                 ]

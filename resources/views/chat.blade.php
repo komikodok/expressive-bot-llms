@@ -88,7 +88,7 @@
                             <div class="w-14 h-14 flex rounded-full">
                                 <img src="{{ asset('images/profile.jpg') }}" class="text-md m-auto" alt="Bot Profile">
                             </div>
-                            <p class="bg-slate-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">Halo {{ auth()->user()->name }}</p>
+                            <p class="bg-slate-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all whitespace-normal">Halo {{ auth()->user()->name }}</p>
                         </div>
                         @foreach ($messages as $message)
                             @php
@@ -97,7 +97,7 @@
                                 $assistant_mood = $message->assistant_mood;
                             @endphp
                             <div class="justify-end p-3 flex">
-                                <p class="bg-gray-200 text-slate-950 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">{{ $user_message }}</p>
+                                <p class="bg-gray-200 text-slate-950 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all whitespace-normal">{{ $user_message }}</p>
                                 <div class="border border-black w-14 h-14 flex rounded-full">
                                     <img src="" class="text-md m-auto" alt="User Profile">
                                 </div>
@@ -106,7 +106,7 @@
                                 <div class="w-14 h-14 flex rounded-full">
                                     <img src="{{ asset('images/' . $assistant_mood . '.png') }}" class="text-md m-auto" alt="Bot Profile">
                                 </div>
-                                <p class="bg-slate-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all">{{ $assistant_message }}</p>
+                                <p class="bg-slate-800 text-slate-200 rounded-xl p-3 mx-2 max-w-[80%] break-words break-all whitespace-normal">{{ $assistant_message }}</p>
                             </div>
                         @endforeach
                     </div>
