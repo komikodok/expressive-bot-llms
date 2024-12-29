@@ -62,7 +62,7 @@ class ChatbotController extends Controller
         }
         
         $list_session = UserSession::where('user_id', $user_id)->latest()->get(['session_uuid', 'updated_at']);
-        $messages = $user_session->messages()->offset(2)->limit(PHP_INT_MAX)->get(['message_history', 'assistant_mood']);
+        $messages = $user_session->messages()->skip(1)->take(PHP_INT_MAX)->get(['message_history', 'assistant_mood']);
 
         if (count($messages) == 0) {
             Message::create([
