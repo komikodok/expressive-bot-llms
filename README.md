@@ -9,6 +9,7 @@ Dekstop
 ![App Screenshot](./public/images/app.png)
 
 Mobile
+
 ![App Screenshot](./public/images/app2.png)
 
 
