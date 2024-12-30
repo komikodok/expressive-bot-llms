@@ -21,7 +21,7 @@ llm_app = LLMApp()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8000"],
+    allow_origins=[os.getenv("LARAVEL_URL")],
     allow_credentials=True,
     allow_methods=["POST"],
     allow_headers=["Content-Type", "Authorization"],

@@ -117,7 +117,7 @@ class ChatbotController extends Controller
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $access_token,
                 'Content-Type' => 'application/json'
-            ])->post('http://localhost:8001/chat/' . $session_uuid, [
+            ])->post(env('FASTAPI_URL') . '/chat/' . $session_uuid, [
                 'message' => $message
             ]);
         } catch (\Exception $e) {

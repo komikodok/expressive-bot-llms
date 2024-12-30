@@ -88,7 +88,7 @@ class SocialiteController extends Controller
     public function generate_token($user, $minutes)
     {
         $payload = [
-            'iss' => 'http://localhost:8000',
+            'iss' => env('LARAVEL_URL'),
             'sub' => (string) $user->name,
             'iat' => time(),
             'exp' => time() + ($minutes * 60)
