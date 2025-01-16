@@ -3,7 +3,7 @@
 @section('title', 'Laravel')
 
 @section('content')
-    <!-- Container -->
+    <!-- Chat Container -->
     <div class="flex h-screen overflow-hidden fade-in-animation">
         @if (session('error'))
             <!-- Overlay -->
